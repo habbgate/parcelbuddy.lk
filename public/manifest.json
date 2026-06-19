@@ -1,0 +1,18 @@
+{
+  "name": "ParcelBuddy — Travel. Deliver. Earn.",
+  "short_name": "ParcelBuddy",
+  "description": "Community parcel delivery connecting senders with verified travelers.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#1A2B4A",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
