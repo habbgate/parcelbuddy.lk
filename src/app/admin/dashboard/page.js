@@ -83,3 +83,4 @@ function RequestsChart({ data }) {
     </div>
   );
 }
+

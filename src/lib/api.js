@@ -34,3 +34,4 @@ export function handler(fn) {
 export function firstNameOnly(fullName = "") {
   return String(fullName).trim().split(/\s+/)[0] || "Sender";
 }
+

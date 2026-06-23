@@ -14,3 +14,4 @@ export const GET = handler(async () => {
     .limit(100);
   return ok({ wallet: user.wallet, transactions });
 });
+

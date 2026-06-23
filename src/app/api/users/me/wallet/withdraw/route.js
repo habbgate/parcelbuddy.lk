@@ -11,3 +11,4 @@ export const POST = handler(async (req) => {
   const balance = await withdraw(user._id, Number(amountLKR));
   return ok({ balance });
 });
+

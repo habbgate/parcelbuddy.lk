@@ -5,3 +5,4 @@ export default function StatusBadge({ status }) {
   const label = STATUS_LABELS[status] || status;
   return <span className={`badge badge-${color}`}>{label}</span>;
 }
+

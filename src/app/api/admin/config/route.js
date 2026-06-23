@@ -26,3 +26,4 @@ export const PUT = handler(async (req) => {
   await config.save();
   return ok({ config });
 });
+

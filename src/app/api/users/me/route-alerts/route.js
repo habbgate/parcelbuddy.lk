@@ -41,3 +41,4 @@ export const DELETE = handler(async (req) => {
   await user.save();
   return ok({ routeAlerts: user.routeAlerts });
 });
+

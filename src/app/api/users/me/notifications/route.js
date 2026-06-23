@@ -18,3 +18,4 @@ export const GET = handler(async () => {
   });
   return ok({ notifications, unread });
 });
+

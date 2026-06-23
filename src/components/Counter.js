@@ -38,3 +38,4 @@ export default function Counter({ to = 0, suffix = "", duration = 1400 }) {
     </span>
   );
 }
+

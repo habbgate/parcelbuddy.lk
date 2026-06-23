@@ -32,3 +32,4 @@ export const POST = handler(async (req) => {
 
   return ok({ url, publicUrl: url });
 });
+

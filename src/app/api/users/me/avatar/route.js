@@ -10,3 +10,4 @@ export const POST = handler(async (req) => {
   await user.save();
   return ok({ avatarUrl });
 });
+

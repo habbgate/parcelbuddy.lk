@@ -103,3 +103,4 @@ export const configSchema = z.object({
   minRewardLKR: z.coerce.number().min(0).optional(),
   maxWeightKg: z.coerce.number().min(1).optional(),
 });
+

@@ -43,3 +43,4 @@ export async function completeRequest(doc, { auto = false } = {}) {
 
   return doc;
 }
+

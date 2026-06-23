@@ -75,3 +75,4 @@ export const smsTemplates = {
   routeAlert: (from, to, reward, code) =>
     `New job on your route ${from} → ${to}! Reward LKR ${reward}. ${base()}/parcels`,
 };
+

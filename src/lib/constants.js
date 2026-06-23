@@ -152,3 +152,4 @@ export const DEFAULT_CONFIG = {
   minRewardLKR: 100,
   maxWeightKg: 30,
 };
+

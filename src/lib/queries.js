@@ -87,3 +87,4 @@ export async function suggestReward(fromCity, toCity) {
     sampleSize: docs.length,
   };
 }
+

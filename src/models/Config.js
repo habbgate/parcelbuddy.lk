@@ -26,3 +26,4 @@ export async function getConfig() {
 }
 
 export default Config;
+

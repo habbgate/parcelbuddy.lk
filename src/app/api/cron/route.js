@@ -50,3 +50,4 @@ export const POST = handler(async (req) => {
 
 // Allow GET for platforms (e.g. Vercel Cron) that issue GET requests.
 export const GET = POST;
+

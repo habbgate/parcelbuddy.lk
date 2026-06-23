@@ -19,3 +19,4 @@ export default function CitySelect({ value, onChange, placeholder = "Select city
     </select>
   );
 }
+

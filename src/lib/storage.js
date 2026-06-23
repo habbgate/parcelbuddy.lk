@@ -88,3 +88,4 @@ export async function createPresignedUpload(folder, contentType) {
 
   return { uploadUrl, publicUrl: publicUrl(key), key };
 }
+

@@ -26,3 +26,4 @@ export const POST = handler(async (req) => {
   }
   return ok({ sent: true });
 });
+

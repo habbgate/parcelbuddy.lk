@@ -27,3 +27,4 @@ export const GET = handler(async (req) => {
     })),
   });
 });
+

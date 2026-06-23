@@ -47,3 +47,4 @@ export const PUT = handler(async (req) => {
 
   return ok({ user: serialize(user) });
 });
+

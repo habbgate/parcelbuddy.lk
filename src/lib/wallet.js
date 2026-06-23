@@ -60,3 +60,4 @@ export async function withdraw(userId, amountLKR) {
 
   return user.wallet.balance;
 }
+

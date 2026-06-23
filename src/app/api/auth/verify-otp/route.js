@@ -29,3 +29,4 @@ export const POST = handler(async (req) => {
 
   return ok({ phoneVerified: true });
 });
+

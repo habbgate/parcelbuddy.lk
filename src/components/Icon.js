@@ -183,3 +183,4 @@ export default function Icon({ name, className = "h-5 w-5", strokeWidth = 2, fil
     </svg>
   );
 }
+

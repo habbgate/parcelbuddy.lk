@@ -11,3 +11,4 @@ export async function notify(userId, { type, title, body, link, data }) {
     return null;
   }
 }
+

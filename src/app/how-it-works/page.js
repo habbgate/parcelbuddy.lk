@@ -67,3 +67,4 @@ function Section({ title, color, steps }) {
     </section>
   );
 }
+

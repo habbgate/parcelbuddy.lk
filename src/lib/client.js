@@ -48,3 +48,4 @@ export async function uploadFile(file, folder = "uploads") {
   }
   return data.url;
 }
+

@@ -12,3 +12,4 @@ export const GET = handler(async (req) => {
   const suggestion = await suggestReward(fromCity, toCity);
   return ok({ suggestion });
 });
+

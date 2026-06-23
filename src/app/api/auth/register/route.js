@@ -37,3 +37,4 @@ export const POST = handler(async (req) => {
 
   return ok({ userId: user._id.toString(), phone: user.phone }, 201);
 });
+

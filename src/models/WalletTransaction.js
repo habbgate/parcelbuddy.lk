@@ -24,3 +24,4 @@ const walletTransactionSchema = new mongoose.Schema(
 
 export default mongoose.models.WalletTransaction ||
   mongoose.model("WalletTransaction", walletTransactionSchema);
+

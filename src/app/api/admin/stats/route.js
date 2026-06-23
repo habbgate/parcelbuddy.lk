@@ -74,3 +74,4 @@ export const GET = handler(async () => {
     requestsPerDay: perDay.map((d) => ({ date: d._id, count: d.count })),
   });
 });
+

@@ -38,7 +38,7 @@ export default function InstallPrompt() {
     <div className="fixed inset-x-3 bottom-3 z-[60] mx-auto max-w-sm animate-fade-up">
       <div className="card-glass flex items-center gap-3 !p-4 shadow-2xl">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/icon.svg" alt="ParcelBuddy" className="h-11 w-11 rounded-xl" />
+        <img src="/logo.png" alt="ParcelBuddy" className="h-11 w-auto max-w-[44px] object-contain rounded-xl" />
         <div className="flex-1">
           <div className="text-sm font-bold text-navy">Install ParcelBuddy</div>
           <div className="text-xs text-muted">Add to your home screen for quick access.</div>
@@ -49,3 +49,4 @@ export default function InstallPrompt() {
     </div>
   );
 }
+

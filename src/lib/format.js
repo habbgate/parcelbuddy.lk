@@ -28,3 +28,4 @@ export function formatDate(date) {
     minute: "2-digit",
   });
 }
+

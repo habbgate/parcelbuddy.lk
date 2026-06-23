@@ -36,3 +36,4 @@ export const GET = handler(async (req) => {
   const actives = jobs.filter((j) => activeStatuses.includes(j.status));
   return ok({ jobs, active, actives });
 });
+

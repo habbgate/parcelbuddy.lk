@@ -35,3 +35,4 @@ export async function generateUniqueTrackingCode(ParcelRequest) {
 export function generateConfirmToken() {
   return generateToken();
 }
+
