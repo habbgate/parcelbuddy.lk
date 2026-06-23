@@ -6,9 +6,9 @@
 
 /* ─── CSS Variables ─── */
 :root {
-  --navy:    #1F2937;
-  --red:     #DC2626;
-  --crimson: #B91C1C;
+  --navy:    #1A2B5F;
+  --orange:  #F97316;
+  --crimson: #EA6C00;
 }
 
 html { scroll-behavior: smooth; }
@@ -25,15 +25,15 @@ html, body {
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: #F3F4F6; }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #DC2626, #B91C1C);
+  background: linear-gradient(180deg, #F97316, #EA6C00);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover { opacity: 0.85; }
 
 /* ─── Selection ─── */
 ::selection {
-  background: rgba(220,38,38,0.15);
-  color: #1F2937;
+  background: rgba(249,115,22,0.18);
+  color: #1A2B5F;
 }
 
 @layer components {
@@ -45,33 +45,33 @@ html, body {
 
   .btn-primary {
     @apply btn text-white;
-    background: linear-gradient(135deg, #EF4444 0%, #DC2626 60%, #B91C1C 100%);
-    box-shadow: 0 4px 20px rgba(220,38,38,0.35), 0 1px 3px rgba(0,0,0,0.1);
+    background: linear-gradient(135deg, #FB923C 0%, #F97316 60%, #EA6C00 100%);
+    box-shadow: 0 4px 20px rgba(249,115,22,0.35), 0 1px 3px rgba(0,0,0,0.1);
   }
   .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(220,38,38,0.45), 0 2px 8px rgba(0,0,0,0.12);
+    box-shadow: 0 8px 30px rgba(249,115,22,0.45), 0 2px 8px rgba(0,0,0,0.12);
   }
   .btn-primary:active { transform: translateY(0); }
 
   .btn-navy {
     @apply btn text-white;
-    background: linear-gradient(135deg, #374151 0%, #1F2937 100%);
-    box-shadow: 0 4px 16px rgba(31,41,55,0.3);
+    background: linear-gradient(135deg, #243474 0%, #1A2B5F 100%);
+    box-shadow: 0 4px 16px rgba(26,43,95,0.3);
   }
   .btn-navy:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(31,41,55,0.4);
+    box-shadow: 0 8px 24px rgba(26,43,95,0.4);
   }
 
   .btn-outline {
     @apply btn border-2 bg-transparent;
-    border-color: rgba(220,38,38,0.4);
-    color: #DC2626;
+    border-color: rgba(249,115,22,0.4);
+    color: #F97316;
   }
   .btn-outline:hover {
-    border-color: #DC2626;
-    background: rgba(220,38,38,0.05);
+    border-color: #F97316;
+    background: rgba(249,115,22,0.05);
     transform: translateY(-1px);
   }
 
@@ -152,8 +152,8 @@ html, body {
   }
   .input::placeholder { color: #9CA3AF; }
   .input:focus {
-    border-color: #DC2626;
-    box-shadow: 0 0 0 4px rgba(220,38,38,0.10);
+    border-color: #F97316;
+    box-shadow: 0 0 0 4px rgba(249,115,22,0.12);
   }
   .input:hover:not(:focus) { border-color: #D1D5DB; }
 
@@ -167,27 +167,27 @@ html, body {
 
   .gradient-text {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, #EF4444 0%, #DC2626 50%, #B91C1C 100%);
+    background-image: linear-gradient(135deg, #FB923C 0%, #F97316 50%, #EA6C00 100%);
   }
 
-  .gradient-text-light {
+  .gradient-text-navy {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, #FCA5A5 0%, #F87171 100%);
+    background-image: linear-gradient(135deg, #243474 0%, #1A2B5F 100%);
   }
 
   /* ── Chips & badges ── */
   .chip {
     @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold;
-    background: rgba(220,38,38,0.07);
-    border: 1px solid rgba(220,38,38,0.18);
-    color: #DC2626;
+    background: rgba(249,115,22,0.09);
+    border: 1px solid rgba(249,115,22,0.22);
+    color: #EA6C00;
   }
 
   .chip-dark {
     @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold;
-    background: rgba(31,41,55,0.07);
-    border: 1px solid rgba(31,41,55,0.15);
-    color: #374151;
+    background: rgba(26,43,95,0.07);
+    border: 1px solid rgba(26,43,95,0.15);
+    color: #1A2B5F;
   }
 
   .chip-glass {
@@ -204,7 +204,7 @@ html, body {
   .badge-blue   { background: #EFF6FF; color: #2563EB; }
   .badge-amber  { background: #FEF3C7; color: #92400E; }
   .badge-purple { background: #F5F3FF; color: #6D28D9; }
-  .badge-orange { background: rgba(220,38,38,0.08); color: #B91C1C; }
+  .badge-orange { background: rgba(249,115,22,0.10); color: #EA6C00; }
   .badge-teal   { background: rgba(20,184,166,0.08); color: #0F766E; }
   .badge-green  { background: rgba(22,163,74,0.08); color: #14532D; }
   .badge-red    { background: #FEF2F2; color: #B91C1C; }
@@ -213,12 +213,12 @@ html, body {
   /* ── Section headings ── */
   .section-label {
     @apply inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest;
-    color: #DC2626;
+    color: #F97316;
   }
 
   .section-title {
     @apply text-3xl font-extrabold leading-tight md:text-4xl;
-    color: #1F2937;
+    color: #1A2B5F;
   }
 
   /* ── Feature card (pure CSS hover — server component safe) ── */
@@ -229,8 +229,8 @@ html, body {
   }
   .feature-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 20px 60px rgba(31,41,55,0.10), 0 4px 24px rgba(220,38,38,0.06);
-    border-color: rgba(220,38,38,0.2);
+    box-shadow: 0 20px 60px rgba(26,43,95,0.10), 0 4px 24px rgba(249,115,22,0.08);
+    border-color: rgba(249,115,22,0.25);
   }
   .feature-card .feature-icon {
     @apply flex h-12 w-12 items-center justify-center rounded-2xl transition-transform duration-300;
