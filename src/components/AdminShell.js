@@ -11,13 +11,13 @@ const NAVY = "#1A2B5F";
 const ORANGE = "#F97316";
 
 const LINKS = [
-  ["/admin/dashboard", "Dashboard", <Icon name="layout-dashboard" className="h-5 w-5" />],
-  ["/admin/verifications", "ID Reviews", <Icon name="users" className="h-5 w-5" />],
-  ["/admin/requests", "Requests", <Icon name="box" className="h-5 w-5" />],
-  ["/admin/travelers", "Travelers", <Icon name="briefcase" className="h-5 w-5" />],
-  ["/admin/disputes", "Disputes", <Icon name="alert" className="h-5 w-5" />],
-  ["/admin/messages", "Messages", <Icon name="mail" className="h-5 w-5" />],
-  ["/admin/config", "Config", <Icon name="gear" className="h-5 w-5" />],
+  ["/admin/dashboard", "Dashboard", <Icon key="icon" name="layout-dashboard" className="h-5 w-5" />],
+  ["/admin/verifications", "ID Reviews", <Icon key="icon" name="users" className="h-5 w-5" />],
+  ["/admin/requests", "Requests", <Icon key="icon" name="box" className="h-5 w-5" />],
+  ["/admin/travelers", "Travelers", <Icon key="icon" name="briefcase" className="h-5 w-5" />],
+  ["/admin/disputes", "Disputes", <Icon key="icon" name="alert" className="h-5 w-5" />],
+  ["/admin/messages", "Messages", <Icon key="icon" name="mail" className="h-5 w-5" />],
+  ["/admin/config", "Config", <Icon key="icon" name="gear" className="h-5 w-5" />],
 ];
 
 export default function AdminShell({ children }) {

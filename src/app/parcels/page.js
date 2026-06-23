@@ -39,7 +39,7 @@ export default function ParcelsPage() {
     } finally {
       setLoading(false);
     }
-  }, [filters]);
+  }, [filters, page]);
 
   useEffect(() => {
     search();
