@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Icon from "@/components/Icon";
 
 function SuccessInner() {
   const params = useSearchParams();
@@ -25,8 +26,8 @@ function SuccessInner() {
 
   return (
     <main className="mx-auto max-w-xl px-4 py-16 text-center">
-      <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-success/15 text-5xl">
-        ✅
+      <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-success/15 text-success">
+        <Icon name="check-circle" className="h-10 w-10" />
       </div>
       <h1 className="mt-6 text-3xl font-extrabold text-navy">Your request is LIVE!</h1>
       <p className="mt-2 text-muted">Verified travelers on your route can now see it.</p>
@@ -50,18 +51,18 @@ function SuccessInner() {
           rel="noopener noreferrer"
           className="btn-success"
         >
-          📲 Share on WhatsApp
+          <Icon name="share" className="h-5 w-5" /> Share on WhatsApp
         </a>
         <button onClick={() => copy(trackUrl)} className="btn-outline">
-          🔗 Copy tracking link
+          <Icon name="link" className="h-5 w-5" /> Copy tracking link
         </button>
         <Link href={`/track/${code}`} className="btn-navy">
-          Track this parcel →
+          Track this parcel
         </Link>
       </div>
 
-      <p className="mt-8 rounded-lg bg-success/10 px-4 py-3 text-sm text-success">
-        🔒 Your phone is hidden. It&apos;s only shared when a verified traveler accepts.
+      <p className="mt-8 flex items-center justify-center gap-2 rounded-lg bg-success/10 px-4 py-3 text-sm text-success">
+        <Icon name="lock" className="h-4 w-4" /> Your phone is hidden. It&apos;s only shared when a verified traveler accepts.
       </p>
     </main>
   );

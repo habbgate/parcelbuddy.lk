@@ -30,7 +30,7 @@ export async function sendEmail(to, subject, html) {
   const t = getTransporter();
   if (!t) {
     const text = String(html).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-    console.log(`\n📧 [EMAIL SIMULATED] → ${to}\nSubject: ${subject}\n${text}\n`);
+    console.log(`\n[EMAIL SIMULATED] -> ${to}\nSubject: ${subject}\n${text}\n`);
     return { ok: true, simulated: true };
   }
 
@@ -59,7 +59,7 @@ function layout(heading, bodyHtml, cta) {
   <div style="background:#F8FAFC;padding:24px;font-family:Inter,Arial,sans-serif;color:#1A2B4A">
     <div style="max-width:520px;margin:0 auto;background:#fff;border:1px solid #E2E8F0;border-radius:14px;overflow:hidden">
       <div style="background:#1A2B4A;padding:18px 24px;color:#fff;font-size:20px;font-weight:800">
-        📦 Parcel<span style="color:#F47C20">Buddy</span>
+        Parcel<span style="color:#F47C20">Buddy</span>
       </div>
       <div style="padding:24px">
         <h1 style="font-size:20px;margin:0 0 12px">${heading}</h1>
@@ -78,7 +78,7 @@ export const emailTemplates = {
   requestPosted: (code) => ({
     subject: `Your request ${code} is live`,
     html: layout(
-      "Your parcel request is live! 🎉",
+      "Your parcel request is live!",
       `Your request <b>${code}</b> is now visible to verified travelers on your route. We'll let you know the moment someone accepts it.`,
       { label: "Track your parcel", href: `${base()}/track/${code}` }
     ),
@@ -94,7 +94,7 @@ export const emailTemplates = {
   collected: (code) => ({
     subject: `${code} collected and on the way`,
     html: layout(
-      "Your parcel is on the move 🚗",
+      "Your parcel is on the move",
       `Your parcel <b>${code}</b> has been collected and is now on its way to the destination.`,
       { label: "Track your parcel", href: `${base()}/track/${code}` }
     ),
@@ -102,7 +102,7 @@ export const emailTemplates = {
   inTransit: (code) => ({
     subject: `${code} is in transit`,
     html: layout(
-      "Your parcel is in transit 🚚",
+      "Your parcel is in transit",
       `Update: your parcel <b>${code}</b> is now in transit and heading to the destination.`,
       { label: "Track your parcel", href: `${base()}/track/${code}` }
     ),
@@ -110,13 +110,13 @@ export const emailTemplates = {
   delivered: (code, token) => ({
     subject: `${code} delivered — please confirm`,
     html: layout(
-      "Your parcel was delivered 📬",
+      "Your parcel was delivered",
       `Your traveler has marked <b>${code}</b> as delivered. Please confirm you received it so we can release their payment.`,
       { label: "Confirm delivery", href: `${base()}/track/${code}?confirm=${token}` }
     ),
   }),
   idApproved: () => ({
-    subject: "Your identity is verified ✅",
+    subject: "Your identity is verified",
     html: layout(
       "You're verified!",
       `Your identity has been approved. You can now accept delivery jobs and start earning.`,
@@ -134,7 +134,7 @@ export const emailTemplates = {
   jobAcceptedTraveler: (code, name, phone) => ({
     subject: `Job confirmed: ${code}`,
     html: layout(
-      "Job confirmed 🎉",
+      "Job confirmed",
       `You accepted <b>${code}</b>.<br/>Sender: <b>${name}</b><br/>Phone: <b>${phone}</b><br/>Head to your dashboard for full details and chat.`,
       { label: "Open dashboard", href: `${base()}/dashboard` }
     ),

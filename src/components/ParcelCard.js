@@ -4,7 +4,7 @@ import { timeAgo } from "@/lib/format";
 
 export default function ParcelCard({ request, href, cta = "View & Accept →" }) {
   return (
-    <div className="card flex flex-col gap-3 transition hover:shadow-md">
+    <div className="card group flex flex-col gap-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-navy/5">
       <div className="flex items-start justify-between">
         <div className="text-lg font-extrabold text-navy">
           {request.route.fromCity} <span className="text-orange">→</span>{" "}

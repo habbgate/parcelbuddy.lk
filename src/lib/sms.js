@@ -25,7 +25,7 @@ export async function sendSMS(to, message) {
   const senderId = process.env.NOTIFY_LK_SENDER_ID || "NotifyDEMO";
 
   if (!userId || !apiKey) {
-    console.log(`\n📱 [SMS SIMULATED] → ${to}\n${message}\n`);
+    console.log(`\n[SMS SIMULATED] -> ${to}\n${message}\n`);
     return { ok: true, simulated: true };
   }
 

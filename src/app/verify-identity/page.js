@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import FileUpload from "@/components/FileUpload";
+import Icon from "@/components/Icon";
 import { api } from "@/lib/client";
 import { DOC_TYPES } from "@/lib/constants";
 
@@ -55,7 +56,7 @@ export default function VerifyIdentityPage() {
     return (
       <Shell>
         <div className="card text-center">
-          <div className="text-5xl">🕓</div>
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-amber/10 text-amber"><Icon name="clock" className="h-8 w-8" /></div>
           <h1 className="mt-4 text-2xl font-extrabold text-navy">Under review</h1>
           <p className="mt-2 text-muted">Usually approved within 2 hours. We&apos;ll SMS you once it&apos;s done.</p>
         </div>
@@ -67,9 +68,9 @@ export default function VerifyIdentityPage() {
     return (
       <Shell>
         <div className="card text-center">
-          <div className="text-5xl">✅</div>
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-success/10 text-success"><Icon name="check-circle" className="h-8 w-8" /></div>
           <h1 className="mt-4 text-2xl font-extrabold text-navy">You&apos;re verified!</h1>
-          <button onClick={() => router.push("/parcels")} className="btn-primary mt-4">Browse jobs →</button>
+          <button onClick={() => router.push("/parcels")} className="btn-primary mt-4">Browse jobs</button>
         </div>
       </Shell>
     );

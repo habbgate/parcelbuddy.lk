@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import FileUpload from "@/components/FileUpload";
+import Icon from "@/components/Icon";
 import { api } from "@/lib/client";
 import { formatLKR } from "@/lib/format";
 
@@ -51,7 +52,7 @@ export default function ProfilePage() {
           <img src={me.avatarUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${me.name}`} alt="avatar" className="h-20 w-20 rounded-full border border-border object-cover" />
           <div>
             <div className="text-xl font-bold text-navy">{me.name}</div>
-            <div className="text-sm text-muted">⭐ {me.stats.averageRating || "—"} · {me.stats.totalDeliveries} deliveries · {formatLKR(me.stats.totalEarningsLKR)} earned</div>
+            <div className="flex items-center gap-1 text-sm text-muted"><Icon name="star" className="h-4 w-4 text-amber" fill="currentColor" /> {me.stats.averageRating || "—"} · {me.stats.totalDeliveries} deliveries · {formatLKR(me.stats.totalEarningsLKR)} earned</div>
             <div className="mt-1 text-xs font-semibold uppercase text-muted">{me.status}</div>
           </div>
         </div>

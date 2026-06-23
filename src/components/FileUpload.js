@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { uploadFile } from "@/lib/client";
+import Icon from "@/components/Icon";
 
 // Drag & drop uploader. Calls onUploaded(url) for each successful upload.
 export default function FileUpload({
@@ -45,7 +46,7 @@ export default function FileUpload({
         }}
         className="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-border bg-bg px-4 py-8 text-center text-sm text-muted transition hover:border-orange"
       >
-        <span className="text-3xl">📤</span>
+        <Icon name="upload" className="h-8 w-8 text-muted" />
         <span className="mt-2">{busy ? "Uploading…" : label}</span>
         <span className="mt-1 text-xs">
           {value.length}/{max} uploaded
@@ -75,9 +76,9 @@ export default function FileUpload({
               <button
                 type="button"
                 onClick={() => onChange?.(value.filter((_, idx) => idx !== i))}
-                className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-danger text-xs text-white"
+                className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-danger text-white"
               >
-                ✕
+                <Icon name="x" className="h-3.5 w-3.5" strokeWidth={3} />
               </button>
             </div>
           ))}

@@ -71,7 +71,7 @@ export default function ChatPanel({ requestId, token }) {
     <div className="flex h-[28rem] flex-col rounded-xl border border-border bg-white">
       <div className="border-b border-border px-4 py-3 font-bold text-navy">Chat</div>
       <div className="flex-1 space-y-2 overflow-y-auto p-4">
-        {messages.length === 0 && <p className="text-center text-sm text-muted">No messages yet. Say hello 👋</p>}
+        {messages.length === 0 && <p className="text-center text-sm text-muted">No messages yet. Say hello.</p>}
         {messages.map((m) => {
           const mine = m.senderType === me;
           return (

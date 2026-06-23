@@ -6,6 +6,11 @@ export const metadata = {
   description:
     "Community parcel delivery platform connecting senders with verified travelers across Sri Lanka. Turn your journey into income.",
   manifest: "/manifest.json",
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
   appleWebApp: { capable: true, title: "ParcelBuddy", statusBarStyle: "default" },
 };
 

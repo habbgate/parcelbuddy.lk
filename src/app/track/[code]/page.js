@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import StatusTracker from "@/components/StatusTracker";
 import StatusBadge from "@/components/StatusBadge";
 import ChatPanel from "@/components/ChatPanel";
+import Icon from "@/components/Icon";
 import { api } from "@/lib/client";
 import { PACKAGE_TYPE_LABELS, REQUEST_STATUS } from "@/lib/constants";
 import { formatDate } from "@/lib/format";
@@ -78,7 +79,7 @@ export default function TrackPage() {
           <div className="py-20 text-center text-muted">Loading…</div>
         ) : error && !req ? (
           <div className="card text-center">
-            <div className="text-4xl">🔍</div>
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-bg text-muted"><Icon name="search" className="h-8 w-8" /></div>
             <h1 className="mt-3 text-xl font-bold text-navy">Not found</h1>
             <p className="mt-1 text-muted">{error}</p>
             <Link href="/" className="btn-primary mt-5">Go home</Link>
@@ -103,7 +104,7 @@ export default function TrackPage() {
               <Row label="Item" value={`${PACKAGE_TYPE_LABELS[req.parcel.packageType]} · ${req.parcel.weightKg} kg · ${req.parcel.description}`} />
               <Row label="Reward" value={<span className="mono font-bold text-success">LKR {req.rewardLKR.toLocaleString()}</span>} />
               <Row label="Sender" value={req.senderName} />
-              {req.traveler && <Row label="Traveler" value={`${req.traveler.name} ⭐ ${req.traveler.rating || "—"}`} />}
+              {req.traveler && <Row label="Traveler" value={<span className="inline-flex items-center gap-1">{req.traveler.name} <Icon name="star" className="h-4 w-4 text-amber" fill="currentColor" /> {req.traveler.rating || "—"}</span>} />}
               <Row label="Posted" value={formatDate(req.createdAt)} />
             </div>
 
@@ -134,7 +135,7 @@ export default function TrackPage() {
                 <h3 className="font-bold text-navy">Did you receive your parcel?</h3>
                 <p className="mt-1 text-sm text-muted">Confirm to release payment to your traveler.</p>
                 <button onClick={confirmDelivery} disabled={confirming} className="btn-success mt-4">
-                  {confirming ? "Confirming…" : "✅ Confirm Delivery"}
+                  {confirming ? "Confirming…" : "Confirm Delivery"}
                 </button>
               </div>
             )}
@@ -169,7 +170,7 @@ export default function TrackPage() {
             )}
 
             {error && <p className="mt-4 text-center text-sm text-danger">{error}</p>}
-            <p className="mt-6 text-center text-xs text-muted">🔒 No phone numbers are ever shown on this page.</p>
+            <p className="mt-6 flex items-center justify-center gap-2 text-center text-xs text-muted"><Icon name="lock" className="h-3.5 w-3.5" /> No phone numbers are ever shown on this page.</p>
           </>
         ) : null}
       </main>
@@ -190,7 +191,10 @@ function Row({ label, value }) {
 function TL({ label, date }) {
   return (
     <li className="flex justify-between">
-      <span className={date ? "font-semibold text-navy" : ""}>{date ? "✓" : "○"} {label}</span>
+      <span className={`inline-flex items-center gap-1.5 ${date ? "font-semibold text-navy" : ""}`}>
+        {date ? <Icon name="check" className="h-4 w-4 text-success" strokeWidth={3} /> : <span className="inline-block h-3 w-3 rounded-full border border-border" />}
+        {label}
+      </span>
       <span>{date ? formatDate(date) : "—"}</span>
     </li>
   );

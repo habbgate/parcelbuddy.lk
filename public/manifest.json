@@ -1,18 +1,40 @@
 {
   "name": "ParcelBuddy — Travel. Deliver. Earn.",
   "short_name": "ParcelBuddy",
-  "description": "Community parcel delivery connecting senders with verified travelers.",
+  "description": "Community parcel delivery connecting senders with verified travelers across Sri Lanka.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#F8FAFC",
+  "background_color": "#1A2B4A",
   "theme_color": "#1A2B4A",
   "orientation": "portrait",
+  "categories": ["travel", "shopping", "productivity"],
   "icons": [
     {
       "src": "/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Send a Parcel",
+      "short_name": "Send",
+      "url": "/send",
+      "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "Browse Jobs",
+      "short_name": "Jobs",
+      "url": "/parcels",
+      "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "Track a Parcel",
+      "short_name": "Track",
+      "url": "/track",
+      "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
     }
   ]
 }

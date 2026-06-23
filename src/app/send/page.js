@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CitySelect from "@/components/CitySelect";
 import FileUpload from "@/components/FileUpload";
+import Icon from "@/components/Icon";
 import { api } from "@/lib/client";
 import { PACKAGE_TYPES, PACKAGE_TYPE_LABELS } from "@/lib/constants";
 
@@ -209,7 +210,7 @@ export default function SendPage() {
               <div>
                 <label className="label">Your Phone *</label>
                 <input className="input" placeholder="0771234567" value={form.phone} onChange={(e) => set("phone", e.target.value)} />
-                <p className="mt-1 text-sm text-success">🔒 Only shared with your matched traveler</p>
+                <p className="mt-1 flex items-center gap-1.5 text-sm text-success"><Icon name="lock" className="h-4 w-4" /> Only shared with your matched traveler</p>
               </div>
               <div>
                 <label className="label">Your Email (optional)</label>
@@ -220,7 +221,7 @@ export default function SendPage() {
                 <input type="number" className="input mono" placeholder="500" value={form.rewardLKR} onChange={(e) => set("rewardLKR", e.target.value)} />
                 {suggestion && (
                   <p className="mt-1 text-sm text-muted">
-                    💡 Suggested: <span className="font-semibold text-navy">LKR {suggestion.low}–{suggestion.high}</span> (based on {suggestion.sampleSize} similar jobs)
+                    Suggested: <span className="font-semibold text-navy">LKR {suggestion.low}–{suggestion.high}</span> (based on {suggestion.sampleSize} similar jobs)
                   </p>
                 )}
               </div>

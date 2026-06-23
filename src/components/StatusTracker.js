@@ -1,6 +1,7 @@
 import { STATUS_FLOW, STATUS_LABELS, REQUEST_STATUS } from "@/lib/constants";
+import Icon from "@/components/Icon";
 
-// Visual progress bar: Posted → Matched → Collected → In Transit → Delivered → Confirmed
+// Visual progress bar: Posted -> Matched -> Collected -> In Transit -> Delivered -> Confirmed
 export default function StatusTracker({ status }) {
   const isCancelled =
     status === REQUEST_STATUS.CANCELLED || status === REQUEST_STATUS.EXPIRED;
@@ -29,7 +30,7 @@ export default function StatusTracker({ status }) {
                     : "border-border bg-white text-muted"
                 } ${active ? "ring-4 ring-success/20" : ""}`}
               >
-                {done ? "✓" : i + 1}
+                {done ? <Icon name="check" className="h-4 w-4" strokeWidth={3} /> : i + 1}
               </div>
               <span
                 className={`mt-2 max-w-[64px] text-center text-[11px] font-semibold ${
