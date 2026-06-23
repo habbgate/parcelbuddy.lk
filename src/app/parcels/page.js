@@ -19,6 +19,8 @@ export default function ParcelsPage() {
     maxWeight: "",
   });
   const [results, setResults] = useState([]);
+  const [pagination, setPagination] = useState(null);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [alertSaved, setAlertSaved] = useState(false);
 
@@ -26,11 +28,14 @@ export default function ParcelsPage() {
     setLoading(true);
     const qs = new URLSearchParams();
     Object.entries(filters).forEach(([k, v]) => v && qs.set(k, v));
+    qs.set("page", page.toString());
     try {
       const d = await api(`/api/requests?${qs.toString()}`);
       setResults(d.requests);
+      setPagination(d.pagination);
     } catch {
       setResults([]);
+      setPagination(null);
     } finally {
       setLoading(false);
     }
@@ -39,7 +44,12 @@ export default function ParcelsPage() {
   useEffect(() => {
     search();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [page]);
+
+  const handleFilterChange = (updates) => {
+    setFilters((f) => ({ ...f, ...updates }));
+    setPage(1); // reset to page 1 on new filter
+  };
 
   async function saveAlert() {
     if (!filters.fromCity || !filters.toCity) return;
@@ -64,17 +74,17 @@ export default function ParcelsPage() {
         {/* Search */}
         <div className="card mt-6">
           <div className="grid gap-3 md:grid-cols-[1fr_1fr_auto]">
-            <CitySelect value={filters.fromCity} onChange={(v) => setFilters((f) => ({ ...f, fromCity: v }))} placeholder="From city" />
-            <CitySelect value={filters.toCity} onChange={(v) => setFilters((f) => ({ ...f, toCity: v }))} placeholder="To city" />
-            <button onClick={search} className="btn-primary">Search</button>
+            <CitySelect value={filters.fromCity} onChange={(v) => handleFilterChange({ fromCity: v })} placeholder="From city" />
+            <CitySelect value={filters.toCity} onChange={(v) => handleFilterChange({ toCity: v })} placeholder="To city" />
+            <button onClick={() => setPage(1)} className="btn-primary">Search</button>
           </div>
           <div className="mt-3 grid gap-3 sm:grid-cols-3">
-            <select className="input" value={filters.packageType} onChange={(e) => setFilters((f) => ({ ...f, packageType: e.target.value }))}>
+            <select className="input" value={filters.packageType} onChange={(e) => handleFilterChange({ packageType: e.target.value })}>
               <option value="">Any package type</option>
               {PACKAGE_TYPES.map((t) => <option key={t} value={t}>{PACKAGE_TYPE_LABELS[t]}</option>)}
             </select>
-            <input type="number" className="input" placeholder="Min reward (LKR)" value={filters.minReward} onChange={(e) => setFilters((f) => ({ ...f, minReward: e.target.value }))} />
-            <input type="number" className="input" placeholder="Max weight (kg)" value={filters.maxWeight} onChange={(e) => setFilters((f) => ({ ...f, maxWeight: e.target.value }))} />
+            <input type="number" className="input" placeholder="Min reward (LKR)" value={filters.minReward} onChange={(e) => handleFilterChange({ minReward: e.target.value })} />
+            <input type="number" className="input" placeholder="Max weight (kg)" value={filters.maxWeight} onChange={(e) => handleFilterChange({ maxWeight: e.target.value })} />
           </div>
         </div>
 
@@ -83,11 +93,35 @@ export default function ParcelsPage() {
           {loading ? (
             <div className="py-16 text-center text-muted">Loading jobs…</div>
           ) : results.length ? (
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {results.map((r) => (
-                <ParcelCard key={r.id} request={r} href={`/parcels/${r.id}`} />
-              ))}
-            </div>
+            <>
+              <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                {results.map((r) => (
+                  <ParcelCard key={r.id} request={r} href={`/parcels/${r.id}`} />
+                ))}
+              </div>
+              
+              {pagination && pagination.totalPages > 1 && (
+                <div className="mt-8 flex items-center justify-center gap-4">
+                  <button 
+                    disabled={page === 1}
+                    onClick={() => setPage(p => Math.max(1, p - 1))}
+                    className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                  >
+                    Previous
+                  </button>
+                  <span className="text-sm font-medium text-gray-600">
+                    Page {page} of {pagination.totalPages}
+                  </span>
+                  <button 
+                    disabled={page >= pagination.totalPages}
+                    onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))}
+                    className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </>
           ) : (
             <div className="card text-center">
               <div className="text-4xl">📭</div>

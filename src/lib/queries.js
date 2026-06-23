@@ -23,6 +23,7 @@ export async function fetchOpenRequests({
   minReward,
   maxWeight,
   limit = 50,
+  page = 1,
 } = {}) {
   await connectDB();
   const query = { status: REQUEST_STATUS.OPEN };
@@ -32,11 +33,20 @@ export async function fetchOpenRequests({
   if (minReward) query.rewardLKR = { $gte: Number(minReward) };
   if (maxWeight) query["parcel.weightKg"] = { $lte: Number(maxWeight) };
 
-  const docs = await ParcelRequest.find(query)
-    .sort({ createdAt: -1 })
-    .limit(limit);
+  const skip = (page - 1) * limit;
 
-  return docs.map(toPublicCard);
+  const [docs, totalCount] = await Promise.all([
+    ParcelRequest.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit),
+    ParcelRequest.countDocuments(query),
+  ]);
+
+  return {
+    requests: docs.map(toPublicCard),
+    totalCount,
+  };
 }
 
 /**

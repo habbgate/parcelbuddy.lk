@@ -88,15 +88,28 @@ export const dynamic = "force-dynamic";
 // GET /api/requests — browse OPEN requests (phone always hidden).
 export const GET = handler(async (req) => {
   const { searchParams } = new URL(req.url);
-  const results = await fetchOpenRequests({
+  const page = Number(searchParams.get("page") || 1);
+  const limit = Number(searchParams.get("limit") || 10); // Changed default limit to 10 for pagination to be visible
+
+  const { requests, totalCount } = await fetchOpenRequests({
     fromCity: searchParams.get("fromCity") || undefined,
     toCity: searchParams.get("toCity") || undefined,
     packageType: searchParams.get("packageType") || undefined,
     minReward: searchParams.get("minReward") || undefined,
     maxWeight: searchParams.get("maxWeight") || undefined,
-    limit: Number(searchParams.get("limit") || 50),
+    limit,
+    page,
   });
-  return ok({ requests: results });
+  
+  return ok({ 
+    requests,
+    pagination: {
+      page,
+      limit,
+      totalCount,
+      totalPages: Math.ceil(totalCount / limit)
+    }
+  });
 });
 
 async function triggerRouteAlerts(doc) {

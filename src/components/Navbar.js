@@ -11,6 +11,7 @@ const LINKS = [
   ["/parcels",      "Browse Jobs",  "briefcase"],
   ["/track",        "Track",        "map-pin"],
   ["/how-it-works", "How it Works", "help-circle"],
+  ["/contact",      "Contact Us",   "mail"],
 ];
 
 // Brand colors matching the logo

@@ -4,25 +4,10 @@ import { Suspense, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Icon from "@/components/Icon";
 
-function EyeIcon({ open }) {
-  return open ? (
-    <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-      <circle cx="12" cy="12" r="3"/>
-    </svg>
-  ) : (
-    <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
-      <line x1="1" y1="1" x2="23" y2="23"/>
-    </svg>
-  );
-}
-
-const RED    = "#DC2626";
-const RED_LT = "#EF4444";
-const DARK   = "#111827";
-const DARK2  = "#1F2937";
+const NAVY   = "#1A2B5F";
+const ORANGE = "#F97316";
 
 function LoginInner() {
   const router      = useRouter();
@@ -48,96 +33,37 @@ function LoginInner() {
   }
 
   return (
-    <div className="flex min-h-screen">
-
-      {/* ─── LEFT PANEL ─── */}
-      <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden p-12 lg:flex"
-        style={{ background: `linear-gradient(155deg, ${DARK} 0%, #0D1117 60%, ${DARK} 100%)` }}>
-
-        {/* Animated blobs */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="animate-blob-1 absolute left-[-10%] top-[-5%] h-80 w-80 rounded-full blur-3xl"
-            style={{ background: "radial-gradient(circle, rgba(220,38,38,0.35), transparent 70%)" }} />
-          <div className="animate-blob-2 absolute right-[-5%] bottom-[20%] h-72 w-72 rounded-full blur-3xl"
-            style={{ background: "radial-gradient(circle, rgba(185,28,28,0.25), transparent 70%)" }} />
-          <div className="animate-blob-3 absolute left-[40%] bottom-[5%] h-56 w-56 rounded-full blur-2xl"
-            style={{ background: "radial-gradient(circle, rgba(239,68,68,0.15), transparent 70%)" }} />
-        </div>
-        <div className="dot-grid absolute inset-0 opacity-25" />
-
-        {/* Logo */}
-        <div className="relative flex items-center gap-2.5">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="ParcelBuddy" className="h-10 w-auto max-w-[40px] object-contain" />
-          <span className="text-xl font-extrabold text-white">
-            Parcel<span style={{ color: RED_LT }}>Buddy</span>
-          </span>
-        </div>
-
-        {/* Main copy */}
-        <div className="relative">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-semibold"
-            style={{ background: "rgba(220,38,38,0.15)", border: "1px solid rgba(220,38,38,0.3)", color: "#FCA5A5" }}>
-            Welcome back
-          </div>
-          <h2 className="text-4xl font-extrabold leading-tight text-white">
-            Your journey<br />continues here
-          </h2>
-          <p className="mt-4 text-lg text-white/50">
-            Log in to manage your deliveries, track parcels, and access your earnings.
-          </p>
-
-          {/* Stats */}
-          <div className="mt-8 grid grid-cols-2 gap-3">
-            {[
-              { val: "2,400+", label: "Deliveries" },
-              { val: "850+",   label: "Travelers"  },
-              { val: "4.9",    label: "Avg Rating"  },
-              { val: "40+",    label: "Cities"      },
-            ].map(({ val, label }) => (
-              <div key={label} className="rounded-2xl p-4"
-                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
-                <div className="text-xl font-bold text-white">{val}</div>
-                <div className="text-xs text-white/40">{label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Testimonial */}
-        <div className="relative rounded-2xl p-5"
-          style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
-          <p className="text-sm italic text-white/60">
-            &ldquo;I earn an extra LKR 15,000 a month just delivering parcels on my daily Kandy&ndash;Colombo commute!&rdquo;
-          </p>
-          <div className="mt-3 flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-white"
-              style={{ background: `linear-gradient(135deg, ${RED_LT}, ${RED})` }}>A</div>
-            <div>
-              <div className="text-sm font-bold text-white">Ashan Perera</div>
-              <div className="text-xs text-white/40">Verified Traveler &middot; Kandy</div>
-            </div>
-          </div>
-        </div>
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 relative overflow-hidden">
+      
+      {/* Background decoration */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-[5%] top-[10%] h-80 w-80 rounded-full blur-3xl opacity-10"
+          style={{ background: `radial-gradient(circle, ${NAVY}, transparent)` }} />
+        <div className="absolute right-[5%] bottom-[10%] h-80 w-80 rounded-full blur-3xl opacity-10"
+          style={{ background: `radial-gradient(circle, ${ORANGE}, transparent)` }} />
       </div>
 
-      {/* ─── RIGHT PANEL ─── */}
-      <div className="flex flex-1 items-center justify-center px-5 py-12 bg-white">
-        <div className="w-full max-w-md animate-slide-in-right">
+      <div className="w-full max-w-md relative z-10 animate-fade-up">
 
-          {/* Mobile logo */}
-          <div className="mb-8 flex items-center gap-2.5 lg:hidden">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="ParcelBuddy" className="h-9 w-auto max-w-[36px] object-contain" />
-            <span className="text-xl font-extrabold" style={{ color: DARK2 }}>
-              Parcel<span style={{ color: RED }}>Buddy</span>
+        {/* Brand header */}
+        <div className="mb-8 flex flex-col items-center text-center">
+          <Link href="/" className="group inline-flex items-center gap-2 mb-6">
+            <div className="relative">
+              <div className="absolute inset-0 rounded-xl blur-md opacity-30 group-hover:opacity-50 transition-all"
+                style={{ background: ORANGE }} />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo.png" alt="ParcelBuddy" className="relative h-12 w-12 object-contain rounded-full border border-gray-100 bg-white p-1" />
+            </div>
+            <span className="text-xl font-extrabold" style={{ color: NAVY }}>
+              Parcel<span style={{ color: ORANGE }}>Buddy</span>
             </span>
-          </div>
-
-          <h1 className="text-3xl font-extrabold" style={{ color: DARK2 }}>Welcome back</h1>
+          </Link>
+          <h1 className="text-3xl font-extrabold" style={{ color: NAVY }}>Welcome back</h1>
           <p className="mt-2 text-muted">Log in to your traveler account.</p>
+        </div>
 
-          <form onSubmit={submit} className="mt-8 space-y-5">
+        <div className="rounded-3xl border bg-white p-8" style={{ borderColor: "#E2E8F0", boxShadow: "0 20px 60px rgba(26,43,95,0.06)" }}>
+          <form onSubmit={submit} className="space-y-5">
             {/* Email */}
             <div>
               <label className="label" htmlFor="login-email">Email address</label>
@@ -146,10 +72,7 @@ function LoginInner() {
                   placeholder="you@email.com" value={form.email}
                   onChange={(e) => setForm(f => ({ ...f, email: e.target.value }))} required />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted">
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                    <polyline points="22,6 12,13 2,6"/>
-                  </svg>
+                  <Icon name="mail" className="h-4 w-4" />
                 </span>
               </div>
             </div>
@@ -158,7 +81,7 @@ function LoginInner() {
             <div>
               <div className="flex items-center justify-between">
                 <label className="label" htmlFor="login-password">Password</label>
-                <Link href="/auth/forgot-password" className="text-xs font-semibold hover:underline" style={{ color: RED }}>
+                <Link href="/auth/forgot-password" className="text-xs font-semibold hover:underline" style={{ color: ORANGE }}>
                   Forgot password?
                 </Link>
               </div>
@@ -168,7 +91,7 @@ function LoginInner() {
                   onChange={(e) => setForm(f => ({ ...f, password: e.target.value }))} required />
                 <button type="button" onClick={() => setShowPw(p => !p)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted transition-colors hover:text-navy">
-                  <EyeIcon open={showPw} />
+                  <Icon name={showPw ? "eye" : "eye-off"} className="h-4 w-4" />
                 </button>
               </div>
             </div>
@@ -176,10 +99,8 @@ function LoginInner() {
             {/* Error */}
             {error && (
               <div className="flex items-center gap-2.5 rounded-xl px-4 py-3 text-sm font-medium"
-                style={{ background: "rgba(220,38,38,0.07)", border: "1px solid rgba(220,38,38,0.18)", color: RED }}>
-                <svg className="h-4 w-4 flex-none" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-                </svg>
+                style={{ background: "rgba(220,38,38,0.08)", border: "1px solid rgba(220,38,38,0.2)", color: "#DC2626" }}>
+                <Icon name="alert-circle" className="h-4 w-4 flex-none" />
                 {error}
               </div>
             )}
@@ -188,8 +109,8 @@ function LoginInner() {
             <button id="login-submit" type="submit" disabled={busy}
               className="w-full rounded-xl py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
               style={{
-                background: `linear-gradient(135deg, ${RED_LT} 0%, ${RED} 60%, #B91C1C 100%)`,
-                boxShadow: "0 6px 24px rgba(220,38,38,0.35)",
+                background: `linear-gradient(135deg, #FB923C, ${ORANGE}, #EA6C00)`,
+                boxShadow: "0 6px 24px rgba(249,115,22,0.35)",
               }}>
               {busy ? (
                 <span className="flex items-center justify-center gap-2">
@@ -200,7 +121,7 @@ function LoginInner() {
             </button>
 
             {/* Divider */}
-            <div className="relative flex items-center gap-3">
+            <div className="relative flex items-center gap-3 py-2">
               <div className="flex-1 h-px bg-gray-200" />
               <span className="text-xs font-medium text-muted">or continue with</span>
               <div className="flex-1 h-px bg-gray-200" />
@@ -208,8 +129,8 @@ function LoginInner() {
 
             {/* Google */}
             <button id="login-google" type="button" onClick={() => signIn("google", { callbackUrl })}
-              className="group w-full rounded-xl border-2 py-3.5 text-sm font-bold transition-all hover:-translate-y-0.5 hover:shadow-md"
-              style={{ borderColor: "#E5E7EB", background: "white", color: DARK2 }}>
+              className="group w-full rounded-xl border-2 py-3.5 text-sm font-bold transition-all hover:-translate-y-0.5 hover:shadow-md bg-white"
+              style={{ borderColor: "#E2E8F0", color: NAVY }}>
               <span className="flex items-center justify-center gap-3">
                 <svg className="h-5 w-5" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -222,9 +143,9 @@ function LoginInner() {
             </button>
 
             {/* Register link */}
-            <p className="text-center text-sm text-muted">
+            <p className="text-center text-sm text-muted pt-2">
               Don&apos;t have an account?{" "}
-              <Link href="/auth/register" className="font-bold hover:underline" style={{ color: RED }}>
+              <Link href="/auth/register" className="font-bold hover:underline" style={{ color: ORANGE }}>
                 Create account &rarr;
               </Link>
             </p>
@@ -238,8 +159,8 @@ function LoginInner() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="flex min-h-screen items-center justify-center bg-white">
-        <div className="h-8 w-8 animate-spin rounded-full border-[3px] border-gray-200 border-t-red-600" />
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+        <div className="h-8 w-8 animate-spin rounded-full border-[3px] border-gray-200 border-t-[#F97316]" />
       </div>
     }>
       <LoginInner />

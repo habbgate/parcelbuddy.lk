@@ -9,6 +9,9 @@ import { SRI_LANKAN_CITIES } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
+const NAVY = "#1A2B5F";
+const ORANGE = "#F97316";
+
 async function getData() {
   try {
     const [recent, stats] = await Promise.all([
@@ -38,12 +41,12 @@ export default async function HomePage() {
   ];
 
   const features = [
-    { icon: "lock",     title: "Phone stays private",        desc: "Your number is shared only with the one verified traveler who accepts.", gradient: "from-violet-500 to-purple-600", bg: "rgba(124,58,237,0.08)", color: "#7C3AED", size: "lg" },
-    { icon: "shield",   title: "Verified travelers",          desc: "Every traveler passes NIC/Passport identity checks before they can carry.", gradient: "from-teal-500 to-emerald-600", bg: "rgba(20,184,166,0.08)", color: "#14B8A6", size: "lg" },
-    { icon: "coins",    title: "Earn on trips you make",     desc: "Turn an empty seat or bag into income on your usual route.", gradient: "from-orange-400 to-red-500", bg: "rgba(255,107,53,0.08)", color: "#FF6B35", size: "sm" },
-    { icon: "map-pin",  title: "Live tracking",              desc: "Follow every step — posted, matched, collected, in transit, delivered.", gradient: "from-blue-500 to-indigo-600", bg: "rgba(99,102,241,0.08)", color: "#6366F1", size: "sm" },
-    { icon: "star",     title: "Ratings & reviews",          desc: "Build trust with a public profile and review history.", gradient: "from-amber-400 to-orange-500", bg: "rgba(245,158,11,0.08)", color: "#F59E0B", size: "sm" },
-    { icon: "zap",      title: "Instant payouts",            desc: "90% of the reward lands in your wallet the moment delivery is confirmed.", gradient: "from-green-400 to-emerald-500", bg: "rgba(16,185,129,0.08)", color: "#10B981", size: "sm" },
+    { icon: "lock",     title: "Phone stays private",        desc: "Your number is shared only with the one verified traveler who accepts.", bg: "rgba(26,43,95,0.08)", color: NAVY },
+    { icon: "shield",   title: "Verified travelers",          desc: "Every traveler passes NIC/Passport identity checks before they can carry.", bg: "rgba(249,115,22,0.08)", color: ORANGE },
+    { icon: "coins",    title: "Earn on trips you make",     desc: "Turn an empty seat or bag into income on your usual route.", bg: "rgba(26,43,95,0.08)", color: NAVY },
+    { icon: "map-pin",  title: "Live tracking",              desc: "Follow every step — posted, matched, collected, in transit, delivered.", bg: "rgba(249,115,22,0.08)", color: ORANGE },
+    { icon: "star",     title: "Ratings & reviews",          desc: "Build trust with a public profile and review history.", bg: "rgba(26,43,95,0.08)", color: NAVY },
+    { icon: "zap",      title: "Instant payouts",            desc: "90% of the reward lands in your wallet the moment delivery is confirmed.", bg: "rgba(249,115,22,0.08)", color: ORANGE },
   ];
 
   return (
@@ -53,20 +56,17 @@ export default async function HomePage() {
       {/* ═══════════════════════════════════
           HERO SECTION
       ═══════════════════════════════════ */}
-      <section className="relative min-h-[92vh] overflow-hidden mesh-hero text-white flex flex-col">
+      <section className="relative min-h-[92vh] overflow-hidden bg-white text-gray-900 flex flex-col">
 
         {/* Animated blobs */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="animate-blob-1 absolute left-[10%] top-[15%] h-96 w-96 rounded-full blur-3xl"
-            style={{ background: "radial-gradient(circle, rgba(124,58,237,0.5), transparent 70%)" }} />
+            style={{ background: `radial-gradient(circle, rgba(249,115,22,0.15), transparent 70%)` }} />
           <div className="animate-blob-2 absolute right-[8%] top-[10%] h-80 w-80 rounded-full blur-3xl"
-            style={{ background: "radial-gradient(circle, rgba(255,107,53,0.35), transparent 70%)" }} />
+            style={{ background: `radial-gradient(circle, rgba(26,43,95,0.1), transparent 70%)` }} />
           <div className="animate-blob-3 absolute bottom-[10%] left-[40%] h-72 w-72 rounded-full blur-3xl"
-            style={{ background: "radial-gradient(circle, rgba(20,184,166,0.25), transparent 70%)" }} />
+            style={{ background: `radial-gradient(circle, rgba(249,115,22,0.1), transparent 70%)` }} />
         </div>
-
-        {/* Dot grid */}
-        <div className="absolute inset-0 dot-grid opacity-40" />
 
         {/* Hero content */}
         <div className="relative flex-1 mx-auto grid max-w-7xl w-full items-center gap-12 px-4 py-20 lg:grid-cols-2 lg:py-28">
@@ -74,24 +74,19 @@ export default async function HomePage() {
           {/* Left: text */}
           <div className="animate-fade-up">
             {/* Badge */}
-            <div className="mb-6 inline-flex items-center gap-2.5 rounded-full px-4 py-2"
-              style={{
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.12)",
-                backdropFilter: "blur(12px)",
-              }}>
+            <div className="mb-6 inline-flex items-center gap-2.5 rounded-full px-4 py-2 bg-gray-50 border border-gray-200">
               <span className="flex h-5 w-5 items-center justify-center rounded-full"
-                style={{ background: "linear-gradient(135deg, #FF6B35, #E8420A)" }}>
+                style={{ background: `linear-gradient(135deg, ${ORANGE}, #EA6C00)` }}>
                 <Icon name="map-pin" className="h-3 w-3 text-white" fill="currentColor" />
               </span>
-              <span className="text-sm font-semibold text-white/80">Sri Lanka&apos;s #1 Community Delivery Network</span>
+              <span className="text-sm font-semibold text-gray-600">Sri Lanka&apos;s #1 Community Delivery Network</span>
               <span className="ml-1 rounded-full px-2 py-0.5 text-xs font-bold text-white"
-                style={{ background: "linear-gradient(135deg, #FF6B35, #E8420A)" }}>
+                style={{ background: `linear-gradient(135deg, ${ORANGE}, #EA6C00)` }}>
                 NEW
               </span>
             </div>
 
-            <h1 className="text-5xl font-black leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
+            <h1 className="text-5xl font-black leading-[1.05] tracking-tight md:text-6xl lg:text-7xl" style={{ color: NAVY }}>
               Turn Your<br />
               Journey Into{" "}
               <span className="relative">
@@ -99,8 +94,8 @@ export default async function HomePage() {
               </span>
             </h1>
 
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-white/65">
-              ParcelBuddy connects people sending parcels with <strong className="text-white/90">verified travelers</strong> heading
+            <p className="mt-6 max-w-lg text-lg leading-relaxed text-gray-600">
+              ParcelBuddy connects people sending parcels with <strong style={{ color: NAVY }}>verified travelers</strong> heading
               the same way. Send affordably. Travel and earn.
             </p>
 
@@ -110,8 +105,8 @@ export default async function HomePage() {
                 href="/send"
                 className="group relative inline-flex items-center justify-center gap-2.5 overflow-hidden rounded-xl px-7 py-4 text-base font-bold text-white transition-all duration-300 hover:-translate-y-1"
                 style={{
-                  background: "linear-gradient(135deg, #FF8A5B 0%, #FF6B35 60%, #E8420A 100%)",
-                  boxShadow: "0 6px 24px rgba(255,107,53,0.5), 0 2px 8px rgba(0,0,0,0.15)",
+                  background: `linear-gradient(135deg, #FB923C 0%, ${ORANGE} 60%, #EA6C00 100%)`,
+                  boxShadow: "0 6px 24px rgba(249,115,22,0.3), 0 2px 8px rgba(0,0,0,0.1)",
                 }}
               >
                 <span className="relative flex items-center gap-2">
@@ -122,14 +117,13 @@ export default async function HomePage() {
 
               <Link
                 href="/parcels"
-                className="inline-flex items-center justify-center gap-2.5 rounded-xl border-2 px-7 py-4 text-base font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white/10"
+                className="inline-flex items-center justify-center gap-2.5 rounded-xl border-2 px-7 py-4 text-base font-bold transition-all duration-300 hover:-translate-y-1 bg-white hover:bg-gray-50"
                 style={{
-                  borderColor: "rgba(255,255,255,0.2)",
-                  background: "rgba(255,255,255,0.06)",
-                  backdropFilter: "blur(12px)",
+                  borderColor: NAVY,
+                  color: NAVY
                 }}
               >
-                <Icon name="car" className="h-5 w-5 text-orange" />
+                <Icon name="car" className="h-5 w-5" style={{ color: ORANGE }} />
                 Deliver &amp; Earn
               </Link>
             </div>
@@ -141,9 +135,8 @@ export default async function HomePage() {
                 { icon: "lock", text: "Phone-private" },
                 { icon: "zap",  text: "Instant payouts" },
               ].map(({ icon, text, fill }) => (
-                <span key={text} className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-white/65"
-                  style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}>
-                  <Icon name={icon} className="h-3.5 w-3.5 text-orange" fill={fill} />
+                <span key={text} className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-gray-600 bg-gray-50 border border-gray-200">
+                  <Icon name={icon} className="h-3.5 w-3.5" style={{ color: ORANGE }} fill={fill} />
                   {text}
                 </span>
               ))}
@@ -154,12 +147,10 @@ export default async function HomePage() {
           <div className="relative hidden lg:flex justify-center">
             <div className="relative mx-auto max-w-sm animate-float">
               {/* Main card */}
-              <div className="overflow-hidden rounded-3xl"
+              <div className="overflow-hidden rounded-3xl bg-white"
                 style={{
-                  background: "rgba(255,255,255,0.08)",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                  backdropFilter: "blur(24px)",
-                  boxShadow: "0 32px 80px rgba(0,0,0,0.4)",
+                  border: "1px solid #E2E8F0",
+                  boxShadow: "0 32px 80px rgba(26,43,95,0.1)",
                 }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -170,69 +161,56 @@ export default async function HomePage() {
                 <div className="p-5">
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-xs font-semibold uppercase tracking-wider text-white/40">Kandy → Colombo</div>
-                      <div className="mt-1 font-extrabold text-white">Small box · 1.5 kg</div>
+                      <div className="text-xs font-semibold uppercase tracking-wider text-gray-400">Kandy → Colombo</div>
+                      <div className="mt-1 font-extrabold" style={{ color: NAVY }}>Small box · 1.5 kg</div>
                     </div>
-                    <span className="rounded-full px-3 py-1 text-xs font-bold text-emerald-300"
-                      style={{ background: "rgba(16,185,129,0.15)", border: "1px solid rgba(16,185,129,0.3)" }}>
+                    <span className="rounded-full px-3 py-1 text-xs font-bold text-green-700 bg-green-50 border border-green-200">
                       ✓ Delivered
                     </span>
                   </div>
-                  <div className="mono mt-3 text-2xl font-bold text-emerald-400">LKR 500</div>
+                  <div className="mono mt-3 text-2xl font-bold" style={{ color: ORANGE }}>LKR 500</div>
                 </div>
               </div>
 
               {/* Float card: verified */}
-              <div className="absolute -left-12 top-10 animate-float rounded-2xl px-4 py-3"
-                style={{ animationDelay: "1s",
-                  background: "rgba(15,23,42,0.85)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  backdropFilter: "blur(16px)",
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.3)" }}>
+              <div className="absolute -left-12 top-10 animate-float rounded-2xl px-4 py-3 bg-white"
+                style={{ animationDelay: "1s", border: "1px solid #E2E8F0", boxShadow: "0 8px 32px rgba(26,43,95,0.08)" }}>
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-xl text-teal-400"
-                    style={{ background: "rgba(20,184,166,0.15)" }}>
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl"
+                    style={{ background: "rgba(26,43,95,0.08)", color: NAVY }}>
                     <Icon name="check-circle" className="h-4 w-4" />
                   </span>
                   <div>
-                    <div className="text-xs text-white/40">Identity</div>
-                    <div className="text-sm font-bold text-white">Verified</div>
+                    <div className="text-xs text-gray-400">Identity</div>
+                    <div className="text-sm font-bold" style={{ color: NAVY }}>Verified</div>
                   </div>
                 </div>
               </div>
 
               {/* Float card: earning */}
-              <div className="absolute -right-10 bottom-16 animate-float rounded-2xl px-4 py-3"
-                style={{ animationDelay: "2s",
-                  background: "rgba(15,23,42,0.85)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  backdropFilter: "blur(16px)",
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.3)" }}>
+              <div className="absolute -right-10 bottom-16 animate-float rounded-2xl px-4 py-3 bg-white"
+                style={{ animationDelay: "2s", border: "1px solid #E2E8F0", boxShadow: "0 8px 32px rgba(26,43,95,0.08)" }}>
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-xl text-orange"
-                    style={{ background: "rgba(255,107,53,0.15)" }}>
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl"
+                    style={{ background: "rgba(249,115,22,0.1)", color: ORANGE }}>
                     <Icon name="zap" className="h-4 w-4" fill="currentColor" />
                   </span>
                   <div>
-                    <div className="text-xs text-white/40">You earned</div>
-                    <div className="mono text-sm font-bold text-emerald-400">+LKR 450</div>
+                    <div className="text-xs text-gray-400">You earned</div>
+                    <div className="mono text-sm font-bold" style={{ color: ORANGE }}>+LKR 450</div>
                   </div>
                 </div>
               </div>
 
               {/* Float card: rating */}
-              <div className="absolute -right-8 top-12 animate-bounce-gentle rounded-2xl px-4 py-3"
-                style={{ animationDelay: "0.5s",
-                  background: "rgba(15,23,42,0.85)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  backdropFilter: "blur(16px)",
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.3)" }}>
+              <div className="absolute -right-8 top-12 animate-bounce-gentle rounded-2xl px-4 py-3 bg-white"
+                style={{ animationDelay: "0.5s", border: "1px solid #E2E8F0", boxShadow: "0 8px 32px rgba(26,43,95,0.08)" }}>
                 <div className="flex items-center gap-0.5">
                   {[1,2,3,4,5].map(i => (
                     <Icon key={i} name="star" className="h-3 w-3 text-amber-400" fill="currentColor" />
                   ))}
                 </div>
-                <div className="mt-0.5 text-xs font-bold text-white">5.0 rating</div>
+                <div className="mt-0.5 text-xs font-bold" style={{ color: NAVY }}>5.0 rating</div>
               </div>
             </div>
           </div>
@@ -240,9 +218,9 @@ export default async function HomePage() {
 
         {/* ─── Stats bar ─── */}
         <div className="relative border-t"
-          style={{ borderColor: "rgba(255,255,255,0.08)", background: "rgba(0,0,0,0.2)", backdropFilter: "blur(12px)" }}>
+          style={{ borderColor: "#E2E8F0", background: "white" }}>
           <div className="mx-auto grid max-w-7xl grid-cols-3 divide-x px-4 py-6"
-            style={{ divideColor: "rgba(255,255,255,0.08)" }}>
+            style={{ divideColor: "#E2E8F0" }}>
             <StatItem value={<Counter to={Math.max(stats.deliveries, 2400)} suffix="+" />} label="Deliveries" iconName="package" />
             <StatItem value={<Counter to={Math.max(stats.travelers,  850)} suffix="+" />} label="Travelers"  iconName="users" />
             <StatItem value={<Counter to={Math.max(stats.cities,      40)} suffix="+" />} label="Cities"     iconName="map-pin" />
@@ -266,7 +244,8 @@ export default async function HomePage() {
           {features.map(({ icon, title, desc, bg, color }) => (
             <div
               key={title}
-              className="feature-card group relative overflow-hidden"
+              className="feature-card group relative overflow-hidden bg-white border"
+              style={{ borderColor: "#E2E8F0", borderRadius: "1.5rem", padding: "1.5rem" }}
             >
               {/* Icon */}
               <div className="feature-icon" style={{ background: bg }}>
@@ -274,11 +253,8 @@ export default async function HomePage() {
                   style={{ color }} />
               </div>
               {/* Text */}
-              <h3 className="mt-4 text-lg font-bold" style={{ color: "#0F172A" }}>{title}</h3>
+              <h3 className="mt-4 text-lg font-bold" style={{ color: NAVY }}>{title}</h3>
               <p className="mt-1.5 text-sm leading-relaxed text-muted">{desc}</p>
-              {/* Subtle corner accent */}
-              <div className="feature-corner"
-                style={{ background: `radial-gradient(circle at top right, ${bg}, transparent)` }} />
             </div>
           ))}
         </div>
@@ -287,8 +263,7 @@ export default async function HomePage() {
       {/* ═══════════════════════════════════
           HOW IT WORKS
       ═══════════════════════════════════ */}
-      <section className="relative overflow-hidden py-24" style={{ background: "#F4F4F5" }}>
-        <div className="dot-grid-dark absolute inset-0 opacity-50" />
+      <section className="relative overflow-hidden py-24 bg-gray-50">
         <div className="relative mx-auto max-w-7xl px-4">
           <div className="text-center">
             <span className="section-label">How it works</span>
@@ -296,7 +271,7 @@ export default async function HomePage() {
           </div>
           <div className="mt-14 grid gap-6 lg:grid-cols-2">
             <HowColumn title="For Senders" badge="No account needed" steps={senderSteps} accent="orange" />
-            <HowColumn title="For Travelers" badge="Earn on every trip" steps={travelerSteps} accent="violet" />
+            <HowColumn title="For Travelers" badge="Earn on every trip" steps={travelerSteps} accent="navy" />
           </div>
         </div>
       </section>
@@ -306,29 +281,28 @@ export default async function HomePage() {
       ═══════════════════════════════════ */}
       <section className="mx-auto max-w-7xl px-4 py-20">
         <div className="relative overflow-hidden rounded-3xl px-8 py-16 text-center text-white"
-          style={{ background: "linear-gradient(135deg, #0F172A 0%, #1E1045 50%, #0F172A 100%)" }}>
+          style={{ background: `linear-gradient(135deg, ${NAVY} 0%, #0F1A3A 50%, ${NAVY} 100%)` }}>
           {/* Blobs */}
           <div className="pointer-events-none absolute inset-0">
-            <div className="absolute left-[10%] top-[20%] h-48 w-48 rounded-full blur-2xl opacity-40"
-              style={{ background: "radial-gradient(circle, #7C3AED, transparent)" }} />
-            <div className="absolute right-[10%] bottom-[20%] h-48 w-48 rounded-full blur-2xl opacity-30"
-              style={{ background: "radial-gradient(circle, #FF6B35, transparent)" }} />
+            <div className="absolute left-[10%] top-[20%] h-48 w-48 rounded-full blur-3xl opacity-20"
+              style={{ background: `radial-gradient(circle, ${ORANGE}, transparent)` }} />
+            <div className="absolute right-[10%] bottom-[20%] h-48 w-48 rounded-full blur-3xl opacity-20"
+              style={{ background: `radial-gradient(circle, white, transparent)` }} />
           </div>
-          <div className="dot-grid absolute inset-0 opacity-30" />
 
           <div className="relative mx-auto max-w-2xl">
             <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl"
-              style={{ background: "rgba(255,107,53,0.15)", border: "1px solid rgba(255,107,53,0.3)" }}>
-              <Icon name="lock" className="h-8 w-8 text-orange" />
+              style={{ background: "rgba(249,115,22,0.15)", border: "1px solid rgba(249,115,22,0.3)" }}>
+              <Icon name="lock" className="h-8 w-8" style={{ color: ORANGE }} />
             </div>
             <h3 className="text-3xl font-extrabold md:text-4xl">Your phone stays private</h3>
-            <p className="mt-4 text-lg text-white/60">
+            <p className="mt-4 text-lg text-white/70">
               Your number is never shown publicly and never sold. It&apos;s shared only with
               your matched, verified traveler — and only after they accept.
             </p>
             <Link href="/send"
               className="mt-8 inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5"
-              style={{ background: "linear-gradient(135deg, #FF8A5B, #FF6B35, #E8420A)", boxShadow: "0 6px 24px rgba(255,107,53,0.4)" }}>
+              style={{ background: `linear-gradient(135deg, #FB923C, ${ORANGE}, #EA6C00)`, boxShadow: "0 6px 24px rgba(249,115,22,0.35)" }}>
               <Icon name="box" className="h-5 w-5" />
               Send a Parcel Now
             </Link>
@@ -345,14 +319,14 @@ export default async function HomePage() {
             <span className="section-label">
               <span className="relative flex h-2 w-2 mr-1">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
-                  style={{ background: "#FF6B35" }} />
-                <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: "#FF6B35" }} />
+                  style={{ background: ORANGE }} />
+                <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: ORANGE }} />
               </span>
               Live now
             </span>
             <h2 className="section-title mt-2">Recent open requests</h2>
           </div>
-          <Link href="/parcels" className="font-bold transition-colors hover:text-orange text-muted text-sm">
+          <Link href="/parcels" className="font-bold transition-colors hover:text-orange text-muted text-sm" style={{ color: ORANGE }}>
             View all →
           </Link>
         </div>
@@ -364,11 +338,11 @@ export default async function HomePage() {
           </div>
         ) : (
           <div className="card text-center text-muted py-12">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl" style={{ background: "rgba(255,107,53,0.08)" }}>
-              <Icon name="package" className="h-7 w-7 text-orange" />
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl" style={{ background: "rgba(249,115,22,0.08)" }}>
+              <Icon name="package" className="h-7 w-7" style={{ color: ORANGE }} />
             </div>
             No open requests yet.{" "}
-            <Link href="/send" className="font-bold text-orange hover:underline">Post the first one &rarr;</Link>
+            <Link href="/send" className="font-bold hover:underline" style={{ color: ORANGE }}>Post the first one &rarr;</Link>
           </div>
         )}
       </section>
@@ -376,7 +350,7 @@ export default async function HomePage() {
       {/* ═══════════════════════════════════
           COVERAGE
       ═══════════════════════════════════ */}
-      <section className="py-16" style={{ background: "#F4F4F5" }}>
+      <section className="py-16 bg-gray-50">
         <div className="mx-auto max-w-5xl px-4 text-center">
           <span className="section-label">Island-wide</span>
           <h3 className="section-title mt-3 text-2xl md:text-3xl">Coverage across Sri Lanka</h3>
@@ -392,14 +366,14 @@ export default async function HomePage() {
           CTA BAND
       ═══════════════════════════════════ */}
       <section className="mx-auto max-w-7xl px-4 py-24">
-        <div className="relative overflow-hidden rounded-3xl border p-12 text-center md:p-20"
-          style={{ borderColor: "#E4E4E7", background: "white", boxShadow: "0 20px 80px rgba(15,23,42,0.06)" }}>
+        <div className="relative overflow-hidden rounded-3xl border p-12 text-center md:p-20 bg-white"
+          style={{ borderColor: "#E2E8F0", boxShadow: "0 20px 80px rgba(26,43,95,0.06)" }}>
           {/* Corner gradients */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="absolute -left-10 -top-10 h-48 w-48 rounded-full blur-3xl opacity-20"
-              style={{ background: "radial-gradient(circle, #FF6B35, transparent)" }} />
-            <div className="absolute -right-10 -bottom-10 h-48 w-48 rounded-full blur-3xl opacity-15"
-              style={{ background: "radial-gradient(circle, #7C3AED, transparent)" }} />
+            <div className="absolute -left-10 -top-10 h-48 w-48 rounded-full blur-3xl opacity-10"
+              style={{ background: `radial-gradient(circle, ${ORANGE}, transparent)` }} />
+            <div className="absolute -right-10 -bottom-10 h-48 w-48 rounded-full blur-3xl opacity-10"
+              style={{ background: `radial-gradient(circle, ${NAVY}, transparent)` }} />
           </div>
 
           <div className="relative">
@@ -411,13 +385,13 @@ export default async function HomePage() {
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link href="/send"
                 className="inline-flex items-center gap-2 rounded-xl px-8 py-4 text-base font-bold text-white transition-all hover:-translate-y-1"
-                style={{ background: "linear-gradient(135deg, #FF8A5B, #FF6B35, #E8420A)", boxShadow: "0 6px 24px rgba(255,107,53,0.45)" }}>
+                style={{ background: `linear-gradient(135deg, #FB923C, ${ORANGE}, #EA6C00)`, boxShadow: "0 6px 24px rgba(249,115,22,0.35)" }}>
                 <Icon name="box" className="h-5 w-5" />
                 Send a Parcel
               </Link>
               <Link href="/auth/register"
                 className="inline-flex items-center gap-2 rounded-xl px-8 py-4 text-base font-bold text-white transition-all hover:-translate-y-1"
-                style={{ background: "linear-gradient(135deg, #9461FB, #7C3AED)", boxShadow: "0 6px 24px rgba(124,58,237,0.4)" }}>
+                style={{ background: `linear-gradient(135deg, #243474, ${NAVY})`, boxShadow: "0 6px 24px rgba(26,43,95,0.3)" }}>
                 <Icon name="car" className="h-5 w-5" />
                 Become a Traveler
               </Link>
@@ -431,28 +405,28 @@ export default async function HomePage() {
   );
 }
 
-function StatItem({ value, label, icon }) {
+function StatItem({ value, label, iconName }) {
   return (
     <div className="flex flex-col items-center gap-1 px-4 text-center">
-      <div className="text-2xl">{icon}</div>
-      <div className="mono text-2xl font-bold text-white md:text-3xl">{value}</div>
-      <div className="text-sm text-white/50">{label}</div>
+      <div className="text-2xl text-gray-400"><Icon name={iconName} className="h-6 w-6" /></div>
+      <div className="mono text-2xl font-bold md:text-3xl" style={{ color: NAVY }}>{value}</div>
+      <div className="text-sm text-muted">{label}</div>
     </div>
   );
 }
 
 function HowColumn({ title, badge, steps, accent }) {
-  const accentColor = accent === "orange" ? "#FF6B35" : "#7C3AED";
-  const accentBg    = accent === "orange" ? "rgba(255,107,53,0.1)" : "rgba(124,58,237,0.1)";
+  const accentColor = accent === "orange" ? ORANGE : NAVY;
+  const accentBg    = accent === "orange" ? "rgba(249,115,22,0.1)" : "rgba(26,43,95,0.1)";
   const accentGrad  = accent === "orange"
-    ? "linear-gradient(135deg, #FF8A5B, #FF6B35)"
-    : "linear-gradient(135deg, #9461FB, #7C3AED)";
+    ? `linear-gradient(135deg, #FB923C, ${ORANGE})`
+    : `linear-gradient(135deg, #243474, ${NAVY})`;
 
   return (
-    <div className="card-premium">
+    <div className="card-premium bg-white border" style={{ borderColor: "#E2E8F0" }}>
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-xl font-extrabold" style={{ color: "#0F172A" }}>{title}</h3>
+        <h3 className="text-xl font-extrabold" style={{ color: NAVY }}>{title}</h3>
         <span className="rounded-full px-3 py-1 text-xs font-bold"
           style={{ background: accentBg, color: accentColor }}>
           {badge}
@@ -474,7 +448,7 @@ function HowColumn({ title, badge, steps, accent }) {
               )}
             </div>
             <div className="pb-1">
-              <div className="font-bold" style={{ color: "#0F172A" }}>{t}</div>
+              <div className="font-bold" style={{ color: NAVY }}>{t}</div>
               <div className="mt-0.5 text-sm text-muted">{d}</div>
             </div>
           </li>
@@ -483,4 +457,3 @@ function HowColumn({ title, badge, steps, accent }) {
     </div>
   );
 }
-

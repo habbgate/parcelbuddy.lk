@@ -10,6 +10,7 @@ import StatusTracker from "@/components/StatusTracker";
 import { api } from "@/lib/client";
 import { REQUEST_STATUS } from "@/lib/constants";
 import { formatLKR } from "@/lib/format";
+import Icon from "@/components/Icon";
 
 export default function DashboardPage() {
   const { data: session, status: authStatus } = useSession();
@@ -77,7 +78,7 @@ export default function DashboardPage() {
       <Navbar />
       <main className="mx-auto max-w-5xl px-4 py-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h1 className="text-3xl font-extrabold text-navy">Hi, {me.name.split(" ")[0]} 👋</h1>
+          <h1 className="text-3xl font-extrabold text-navy">Hi, {me.name.split(" ")[0]}</h1>
           <label className="flex items-center gap-2 text-sm font-semibold text-navy">
             <span>I&apos;m available for jobs</span>
             <button onClick={toggleAvailable} className={`relative h-7 w-12 rounded-full transition ${me.isAvailable ? "bg-success" : "bg-border"}`}>
@@ -97,14 +98,18 @@ export default function DashboardPage() {
         {/* Quick actions */}
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
           <Link href="/send" className="card flex items-center gap-4 transition hover:shadow-md">
-            <div className="text-3xl">📦</div>
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 text-orange-600">
+              <Icon name="box" className="h-6 w-6" />
+            </div>
             <div>
               <div className="font-bold text-navy">Send a Parcel</div>
               <div className="text-sm text-muted">Post a request — we&apos;ll pre-fill your details.</div>
             </div>
           </Link>
           <Link href="/parcels" className="card flex items-center gap-4 transition hover:shadow-md">
-            <div className="text-3xl">🚗</div>
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 text-orange-600">
+              <Icon name="briefcase" className="h-6 w-6" />
+            </div>
             <div>
               <div className="font-bold text-navy">Find a Job</div>
               <div className="text-sm text-muted">Browse parcels heading your way.</div>
@@ -166,7 +171,7 @@ export default function DashboardPage() {
         {/* Stats + wallet */}
         <div className="mt-6 grid gap-4 md:grid-cols-4">
           <StatCard label="Total Jobs" value={me.stats.totalDeliveries} />
-          <StatCard label="Avg Rating" value={me.stats.averageRating ? `⭐ ${me.stats.averageRating}` : "—"} />
+          <StatCard label="Avg Rating" value={me.stats.averageRating ? `${me.stats.averageRating} / 5.0` : "—"} />
           <StatCard label="Total Earned" value={formatLKR(me.stats.totalEarningsLKR)} />
           <div className="card bg-navy text-white">
             <div className="text-xs uppercase text-white/70">Wallet balance</div>

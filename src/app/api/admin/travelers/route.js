@@ -12,13 +12,22 @@ export const GET = handler(async (req) => {
   await connectDB();
   const { searchParams } = new URL(req.url);
   const status = searchParams.get("status");
+  const page = Number(searchParams.get("page") || 1);
+  const limit = Number(searchParams.get("limit") || 10);
+  
   const query = { role: ROLES.TRAVELER };
   if (status) query.status = status;
 
-  const users = await User.find(query)
-    .sort({ createdAt: -1 })
-    .limit(200)
-    .select("name email phone status stats wallet idVerification createdAt");
+  const skip = (page - 1) * limit;
+
+  const [users, totalCount] = await Promise.all([
+    User.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .select("name email phone status stats wallet idVerification createdAt"),
+    User.countDocuments(query),
+  ]);
 
   return ok({
     travelers: users.map((u) => ({
@@ -33,6 +42,12 @@ export const GET = handler(async (req) => {
       walletBalance: u.wallet?.balance || 0,
       createdAt: u.createdAt,
     })),
+    pagination: {
+      page,
+      limit,
+      totalCount,
+      totalPages: Math.ceil(totalCount / limit)
+    }
   });
 });
 
