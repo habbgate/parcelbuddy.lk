@@ -54,29 +54,27 @@ export async function fetchOpenRequests({
  */
 export async function fetchPlatformStats() {
   await connectDB();
-  const [deliveries, travelers, cities] = await Promise.all([
-    ParcelRequest.countDocuments({
-      status: { $in: [REQUEST_STATUS.COMPLETED, REQUEST_STATUS.DELIVERED] },
-    }),
-    User.countDocuments({ role: "TRAVELER", status: "ACTIVE" }),
+  const [deliveries, couriers, cities] = await Promise.all([
+    ParcelRequest.countDocuments({ status: REQUEST_STATUS.DELIVERED }),
+    User.countDocuments({ role: "COURIER", status: "ACTIVE" }),
     ParcelRequest.distinct("route.fromCity"),
   ]);
   return {
     deliveries: deliveries,
-    travelers: travelers,
+    couriers: couriers,
     cities: cities.length,
   };
 }
 
 /**
- * Suggested reward based on median of last 20 completed jobs on a city pair.
+ * Suggested reward based on median of last 20 delivered jobs on a city pair.
  */
 export async function suggestReward(fromCity, toCity) {
   await connectDB();
   const docs = await ParcelRequest.find({
     "route.fromCity": fromCity,
     "route.toCity": toCity,
-    status: REQUEST_STATUS.COMPLETED,
+    status: REQUEST_STATUS.DELIVERED,
   })
     .sort({ createdAt: -1 })
     .limit(20)

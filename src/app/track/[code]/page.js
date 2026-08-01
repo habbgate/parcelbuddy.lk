@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -15,13 +15,10 @@ import { formatDate } from "@/lib/format";
 
 export default function TrackPage() {
   const { code } = useParams();
-  const search = useSearchParams();
-  const confirmToken = search.get("confirm");
 
   const [req, setReq] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [confirming, setConfirming] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [reviewDone, setReviewDone] = useState(false);
@@ -41,22 +38,6 @@ export default function TrackPage() {
     load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code]);
-
-  async function confirmDelivery() {
-    setConfirming(true);
-    setError("");
-    try {
-      await api(`/api/requests/${code}/confirm`, {
-        method: "POST",
-        body: { token: confirmToken },
-      });
-      await load();
-    } catch (e) {
-      setError(e.message);
-    } finally {
-      setConfirming(false);
-    }
-  }
 
   async function submitReview() {
     try {
@@ -103,47 +84,48 @@ export default function TrackPage() {
             <div className="card mt-6 space-y-2 text-sm">
               <Row label="Item" value={`${PACKAGE_TYPE_LABELS[req.parcel.packageType]} · ${req.parcel.weightKg} kg · ${req.parcel.description}`} />
               <Row label="Reward" value={<span className="mono font-bold text-success">LKR {req.rewardLKR.toLocaleString()}</span>} />
+              <Row label="Payment method" value="Cash" />
               <Row label="Sender" value={req.senderName} />
-              {req.traveler && <Row label="Traveler" value={<span className="inline-flex items-center gap-1">{req.traveler.name} <Icon name="star" className="h-4 w-4 text-amber" fill="currentColor" /> {req.traveler.rating || "—"}</span>} />}
+              {req.courier && <Row label="Courier" value={<span className="inline-flex items-center gap-1">{req.courier.name} <Icon name="star" className="h-4 w-4 text-amber" fill="currentColor" /> {req.courier.rating || "—"}</span>} />}
               <Row label="Posted" value={formatDate(req.createdAt)} />
             </div>
 
+            {/* Delivery PIN — owner only, while the parcel is still in flight */}
+            {req.isOwner && req.deliveryPin && req.status !== REQUEST_STATUS.DELIVERED && (
+              <div className="card mt-6 border-2 border-orange/40 text-center">
+                <div className="text-sm font-semibold uppercase text-muted">Your delivery PIN</div>
+                <div className="mono mt-2 text-4xl font-bold text-orange tracking-widest">{req.deliveryPin}</div>
+                <p className="mt-3 flex items-center justify-center gap-2 rounded-lg bg-red-50 px-3 py-2 text-sm font-semibold text-danger">
+                  <Icon name="lock" className="h-4 w-4" /> Share this PIN only with the person receiving the parcel. Do not share it with anyone else.
+                </p>
+              </div>
+            )}
+
             {/* Timeline */}
-            {req.matchedTraveler && (
+            {req.matchedCourier && (
               <div className="card mt-6">
                 <h3 className="mb-3 font-bold text-navy">Timeline</h3>
                 <ul className="space-y-2 text-sm text-muted">
-                  <TL label="Accepted" date={req.matchedTraveler.acceptedAt} />
-                  <TL label="Collected" date={req.matchedTraveler.collectedAt} />
-                  <TL label="Delivered" date={req.matchedTraveler.deliveredAt} />
-                  <TL label="Confirmed" date={req.matchedTraveler.confirmedAt} />
+                  <TL label="Accepted" date={req.matchedCourier.acceptedAt} />
+                  <TL label="Collected" date={req.matchedCourier.collectedAt} />
+                  <TL label="Delivered" date={req.matchedCourier.deliveredAt} />
+                  <TL label="PIN verified" date={req.matchedCourier.deliveryVerifiedAt} />
                 </ul>
               </div>
             )}
 
             {/* In-app chat — only for the account-holding sender, once matched */}
-            {req.matchedTraveler && req.traveler && req.isOwner && (
+            {req.matchedCourier && req.courier && req.isOwner && (
               <div className="mt-6">
-                <h3 className="mb-2 font-bold text-navy">Chat with {req.traveler.name}</h3>
+                <h3 className="mb-2 font-bold text-navy">Chat with {req.courier.name}</h3>
                 <ChatPanel requestId={req.id} />
               </div>
             )}
 
-            {/* Confirm delivery */}
-            {req.status === REQUEST_STATUS.DELIVERED && confirmToken && (
-              <div className="card mt-6 border-2 border-success bg-success/5 text-center">
-                <h3 className="font-bold text-navy">Did you receive your parcel?</h3>
-                <p className="mt-1 text-sm text-muted">Confirm to release payment to your traveler.</p>
-                <button onClick={confirmDelivery} disabled={confirming} className="btn-success mt-4">
-                  {confirming ? "Confirming…" : "Confirm Delivery"}
-                </button>
-              </div>
-            )}
-
             {/* Review */}
-            {req.status === REQUEST_STATUS.COMPLETED && !req.review && !reviewDone && (
+            {req.status === REQUEST_STATUS.DELIVERED && !req.review && !reviewDone && (
               <div className="card mt-6">
-                <h3 className="font-bold text-navy">Rate your traveler</h3>
+                <h3 className="font-bold text-navy">Rate your courier</h3>
                 <div className="mt-2 flex gap-1 text-3xl">
                   {[1, 2, 3, 4, 5].map((s) => (
                     <button key={s} onClick={() => setRating(s)} className={s <= rating ? "text-amber" : "text-border"}>★</button>

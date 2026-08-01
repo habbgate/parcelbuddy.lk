@@ -5,8 +5,6 @@ import AdminShell from "@/components/AdminShell";
 import { api } from "@/lib/client";
 
 const FIELDS = [
-  ["commissionPercent", "Platform commission (%)"],
-  ["autoCompleteHours", "Auto-complete after (hours)"],
   ["requestExpiryDays", "Request expiry (days)"],
   ["minRewardLKR", "Minimum reward (LKR)"],
   ["maxWeightKg", "Maximum weight (kg)"],

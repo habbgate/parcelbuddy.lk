@@ -1,11 +1,9 @@
 import { connectDB } from "@/lib/db";
 import ParcelRequest from "@/models/ParcelRequest";
-import { getConfig } from "@/models/Config";
 import { ok, fail, handler } from "@/lib/api";
-import { completeRequest } from "@/lib/complete";
 import { REQUEST_STATUS } from "@/lib/constants";
 
-// POST /api/cron — runs auto-expire and auto-complete.
+// POST /api/cron — auto-expires stale OPEN requests.
 // Protect with header: Authorization: Bearer <CRON_SECRET>
 export const POST = handler(async (req) => {
   const auth = req.headers.get("authorization") || "";
@@ -15,35 +13,16 @@ export const POST = handler(async (req) => {
   }
 
   await connectDB();
-  const config = await getConfig();
   const now = new Date();
 
-  // 1) Auto-expire OPEN requests older than expiry window.
+  // Auto-expire OPEN requests older than the expiry window.
   const expired = await ParcelRequest.updateMany(
     { status: REQUEST_STATUS.OPEN, expiresAt: { $lte: now } },
     { $set: { status: REQUEST_STATUS.EXPIRED } }
   );
 
-  // 2) Auto-complete DELIVERED requests past the confirmation window.
-  const cutoff = new Date(now.getTime() - config.autoCompleteHours * 3600 * 1000);
-  const toComplete = await ParcelRequest.find({
-    status: REQUEST_STATUS.DELIVERED,
-    "matchedTraveler.deliveredAt": { $lte: cutoff },
-  });
-
-  let completed = 0;
-  for (const doc of toComplete) {
-    try {
-      await completeRequest(doc, { auto: true });
-      completed++;
-    } catch (e) {
-      console.error("[CRON complete]", doc.trackingCode, e.message);
-    }
-  }
-
   return ok({
     expired: expired.modifiedCount || 0,
-    autoCompleted: completed,
     ranAt: now.toISOString(),
   });
 });

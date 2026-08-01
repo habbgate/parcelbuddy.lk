@@ -139,7 +139,7 @@ export default function Navbar() {
                     boxShadow: "0 4px 16px rgba(249,115,22,0.40)",
                   }}>
                   <Icon name="zap" className="h-4 w-4" />
-                  Become a Traveler
+                  Become a Courier
                 </Link>
               </>
             )}
@@ -254,7 +254,7 @@ export default function Navbar() {
                   background: `linear-gradient(135deg, #FB923C, ${ORANGE}, #EA6C00)`,
                   boxShadow: "0 4px 20px rgba(249,115,22,0.4)",
                 }}>
-                Become a Traveler
+                Become a Courier
               </Link>
             </div>
           )}

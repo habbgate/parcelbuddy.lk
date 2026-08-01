@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -13,6 +14,7 @@ import { PACKAGE_TYPES, PACKAGE_TYPE_LABELS } from "@/lib/constants";
 const STEPS = ["Route", "Parcel", "Contact & Reward"];
 
 export default function SendPage() {
+  const { status: authStatus } = useSession();
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
@@ -37,7 +39,12 @@ export default function SendPage() {
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
-  // Prefill contact details for logged-in users.
+  // Sending a parcel requires an account.
+  useEffect(() => {
+    if (authStatus === "unauthenticated") router.push("/auth/login?callbackUrl=/send");
+  }, [authStatus, router]);
+
+  // Prefill contact details from the logged-in account.
   useEffect(() => {
     let active = true;
     api("/api/users/me")
@@ -119,12 +126,21 @@ export default function SendPage() {
     }
   }
 
+  if (authStatus !== "authenticated") {
+    return (
+      <>
+        <Navbar />
+        <div className="py-20 text-center text-muted">Loading…</div>
+      </>
+    );
+  }
+
   return (
     <>
       <Navbar />
       <main className="mx-auto max-w-2xl px-4 py-10">
         <h1 className="text-3xl font-extrabold text-navy">Send a Parcel</h1>
-        <p className="mt-1 text-muted">No account needed. It takes about a minute.</p>
+        <p className="mt-1 text-muted">Takes about a minute. Payment is cash, arranged directly with your courier.</p>
 
         {/* Stepper */}
         <div className="mt-6 flex items-center">
@@ -210,7 +226,7 @@ export default function SendPage() {
               <div>
                 <label className="label">Your Phone *</label>
                 <input className="input" placeholder="0771234567" value={form.phone} onChange={(e) => set("phone", e.target.value)} />
-                <p className="mt-1 flex items-center gap-1.5 text-sm text-success"><Icon name="lock" className="h-4 w-4" /> Only shared with your matched traveler</p>
+                <p className="mt-1 flex items-center gap-1.5 text-sm text-success"><Icon name="lock" className="h-4 w-4" /> Only shared with your matched courier</p>
               </div>
               <div>
                 <label className="label">Your Email (optional)</label>

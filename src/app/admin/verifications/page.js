@@ -17,7 +17,7 @@ export default function AdminVerifications() {
   return (
     <AdminShell>
       <h1 className="text-3xl font-extrabold text-navy">ID Verification Queue</h1>
-      <p className="mt-1 text-muted">Review pending traveler identity documents.</p>
+      <p className="mt-1 text-muted">Review pending courier identity documents.</p>
 
       {loading ? (
         <div className="py-16 text-center text-muted">Loading…</div>

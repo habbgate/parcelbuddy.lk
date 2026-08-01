@@ -74,7 +74,11 @@ export const reviewSchema = z.object({
 export const disputeSchema = z.object({
   reason: z.string().min(2),
   description: z.string().min(5).max(1000),
-  reportedBy: z.enum(["SENDER", "TRAVELER"]),
+  reportedBy: z.enum(["SENDER", "COURIER"]),
+});
+
+export const verifyPinSchema = z.object({
+  pin: z.string().trim().length(4, "Enter the 4-digit delivery PIN"),
 });
 
 export const messageSchema = z.object({
@@ -97,8 +101,6 @@ export const updateProfileSchema = z.object({
 });
 
 export const configSchema = z.object({
-  commissionPercent: z.coerce.number().min(0).max(100).optional(),
-  autoCompleteHours: z.coerce.number().min(1).optional(),
   requestExpiryDays: z.coerce.number().min(1).optional(),
   minRewardLKR: z.coerce.number().min(0).optional(),
   maxWeightKg: z.coerce.number().min(1).optional(),

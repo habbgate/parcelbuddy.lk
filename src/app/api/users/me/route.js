@@ -15,7 +15,6 @@ function serialize(u) {
     role: u.role,
     status: u.status,
     stats: u.stats,
-    wallet: u.wallet,
     isAvailable: u.isAvailable,
     routeAlerts: u.routeAlerts,
     idVerification: u.idVerification

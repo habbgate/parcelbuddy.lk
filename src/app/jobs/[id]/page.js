@@ -19,6 +19,7 @@ export default function JobDetailPage() {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [pin, setPin] = useState("");
 
   async function load() {
     const d = await api(`/api/requests/${id}`);
@@ -37,6 +38,20 @@ export default function JobDetailPage() {
     try {
       const method = act === "cancel" ? "POST" : "PATCH";
       await api(`/api/requests/${id}/${act}`, { method });
+      await load();
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function verifyPin() {
+    setBusy(true);
+    setError("");
+    try {
+      await api(`/api/requests/${id}/delivered`, { method: "PATCH", body: { pin } });
+      setPin("");
       await load();
     } catch (e) {
       setError(e.message);
@@ -73,18 +88,12 @@ export default function JobDetailPage() {
               <Row label="Weight" value={`${req.parcel.weightKg} kg`} />
               {req.parcel.specialNotes && <Row label="Notes" value={req.parcel.specialNotes} />}
               <Row label="Reward" value={<span className="mono font-bold text-success">{formatLKR(req.rewardLKR)}</span>} />
+              <Row label="Payment method" value="Cash" />
             </div>
 
             {req.sender?.phone && (
               <div className="card">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-navy">Sender contact</h3>
-                  {req.senderHasAccount ? (
-                    <span className="badge badge-green">Registered user</span>
-                  ) : (
-                    <span className="badge badge-gray">External user</span>
-                  )}
-                </div>
+                <h3 className="font-bold text-navy">Sender contact</h3>
                 <p className="mt-2 font-semibold text-navy">{req.sender.name}</p>
                 <a href={`tel:${req.sender.phone}`} className="mono text-lg font-bold text-success">{req.sender.phone}</a>
               </div>
@@ -101,21 +110,35 @@ export default function JobDetailPage() {
                   </>
                 )}
                 {s === REQUEST_STATUS.COLLECTED && (
-                  <>
-                    <button onClick={() => action("transit")} disabled={busy} className="btn-navy">Mark In Transit</button>
-                    <button onClick={() => action("delivered")} disabled={busy} className="btn-success">Mark Delivered</button>
-                  </>
+                  <button onClick={() => action("transit")} disabled={busy} className="btn-navy">Mark In Transit</button>
                 )}
-                {s === REQUEST_STATUS.IN_TRANSIT && (
-                  <button onClick={() => action("delivered")} disabled={busy} className="btn-success">Mark Delivered</button>
-                )}
-                {s === REQUEST_STATUS.DELIVERED && <p className="text-sm text-muted">Awaiting sender confirmation…</p>}
-                {s === REQUEST_STATUS.COMPLETED && <p className="text-sm font-semibold text-success">✅ Completed — payout credited.</p>}
               </div>
+
+              {(s === REQUEST_STATUS.COLLECTED || s === REQUEST_STATUS.IN_TRANSIT) && (
+                <div className="mt-4 rounded-lg border border-border p-3">
+                  <label className="label">Enter Delivery PIN</label>
+                  <p className="mb-2 text-xs text-muted">Ask the recipient for their 4-digit PIN to confirm the handoff.</p>
+                  <div className="flex gap-2">
+                    <input
+                      className="input mono w-32 text-center text-lg tracking-widest"
+                      maxLength={4}
+                      inputMode="numeric"
+                      value={pin}
+                      onChange={(e) => setPin(e.target.value.replace(/\D/g, ""))}
+                      placeholder="0000"
+                    />
+                    <button onClick={verifyPin} disabled={busy || pin.length !== 4} className="btn-success">
+                      Verify &amp; Complete Delivery
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {s === REQUEST_STATUS.DELIVERED && <p className="mt-3 text-sm font-semibold text-success">✅ Delivered — cash earnings credited.</p>}
               {error && <p className="mt-3 text-sm text-danger">{error}</p>}
             </div>
 
-            {s === REQUEST_STATUS.COMPLETED && req.review && (
+            {s === REQUEST_STATUS.DELIVERED && req.review && (
               <div className="card">
                 <h3 className="font-bold text-navy">Sender review</h3>
                 <div className="mt-1 text-amber">{"★".repeat(req.review.rating)}{"☆".repeat(5 - req.review.rating)}</div>
@@ -124,20 +147,9 @@ export default function JobDetailPage() {
             )}
           </div>
 
-          {/* Chat — only available when the sender has an account */}
+          {/* Chat */}
           <div>
-            {req.senderHasAccount ? (
-              <ChatPanel requestId={req.id} />
-            ) : (
-              <div className="card flex h-full flex-col items-center justify-center text-center">
-                <div className="text-4xl">💬</div>
-                <h3 className="mt-3 font-bold text-navy">Chat unavailable</h3>
-                <p className="mt-1 text-sm text-muted">
-                  This sender is an <span className="font-semibold">external (guest) user</span> without an account.
-                  Please coordinate directly using their phone number.
-                </p>
-              </div>
-            )}
+            <ChatPanel requestId={req.id} />
           </div>
         </div>
       </main>

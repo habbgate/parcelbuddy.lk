@@ -7,6 +7,7 @@ const generateToken = customAlphabet(
   "ABCDEFGHJKMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789",
   32
 );
+const generatePinDigits = customAlphabet("0123456789", 4);
 
 /**
  * Generate a tracking code like "PB-8X4K".
@@ -30,9 +31,17 @@ export async function generateUniqueTrackingCode(ParcelRequest) {
 }
 
 /**
- * Generate an opaque token for guest sender delivery confirmation.
+ * Generate an opaque token (currently used for password-reset links).
  */
 export function generateConfirmToken() {
   return generateToken();
+}
+
+/**
+ * Generate a 4-digit Uber-style delivery PIN. Shown only to the sender until
+ * the courier enters it to verify the handoff and mark the parcel DELIVERED.
+ */
+export function generateDeliveryPin() {
+  return generatePinDigits();
 }
 

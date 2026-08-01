@@ -34,9 +34,9 @@ export async function requireUser() {
 }
 
 /**
- * Require an ACTIVE (identity-verified) traveler — needed to accept jobs.
+ * Require an ACTIVE (identity-verified) courier — needed to accept jobs.
  */
-export async function requireActiveTraveler() {
+export async function requireActiveCourier() {
   const user = await requireUser();
   if (user.status !== USER_STATUS.ACTIVE) {
     const e = new Error("Complete your identity verification to accept jobs");

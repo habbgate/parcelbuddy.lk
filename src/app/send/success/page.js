@@ -1,16 +1,24 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Icon from "@/components/Icon";
+import { api } from "@/lib/client";
 
 function SuccessInner() {
   const params = useSearchParams();
   const code = params.get("code") || "PB-XXXX";
   const [copied, setCopied] = useState(false);
+  const [pin, setPin] = useState(null);
+
+  useEffect(() => {
+    api(`/api/track/${code}`)
+      .then((d) => setPin(d.request?.deliveryPin || null))
+      .catch(() => {});
+  }, [code]);
 
   const base = typeof window !== "undefined" ? window.location.origin : "https://parcelbuddy.lk";
   const trackUrl = `${base}/track/${code}`;
@@ -30,7 +38,7 @@ function SuccessInner() {
         <Icon name="check-circle" className="h-10 w-10" />
       </div>
       <h1 className="mt-6 text-3xl font-extrabold text-navy">Your request is LIVE!</h1>
-      <p className="mt-2 text-muted">Verified travelers on your route can now see it.</p>
+      <p className="mt-2 text-muted">Verified couriers on your route can now see it. Payment method: Cash.</p>
 
       <div className="card mt-8">
         <div className="text-sm font-semibold uppercase text-muted">Your tracking code</div>
@@ -43,6 +51,16 @@ function SuccessInner() {
           Track at: <span className="font-semibold text-navy">{trackUrl}</span>
         </div>
       </div>
+
+      {pin && (
+        <div className="card mt-4 border-2 border-orange/40">
+          <div className="text-sm font-semibold uppercase text-muted">Your delivery PIN</div>
+          <div className="mono mt-2 text-4xl font-bold text-orange tracking-widest">{pin}</div>
+          <p className="mt-3 flex items-center justify-center gap-2 rounded-lg bg-red-50 px-3 py-2 text-sm font-semibold text-danger">
+            <Icon name="lock" className="h-4 w-4" /> Share this PIN only with the person receiving the parcel. Do not share it with anyone else.
+          </p>
+        </div>
+      )}
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
         <a
@@ -62,7 +80,7 @@ function SuccessInner() {
       </div>
 
       <p className="mt-8 flex items-center justify-center gap-2 rounded-lg bg-success/10 px-4 py-3 text-sm text-success">
-        <Icon name="lock" className="h-4 w-4" /> Your phone is hidden. It&apos;s only shared when a verified traveler accepts.
+        <Icon name="lock" className="h-4 w-4" /> Your phone is hidden. It&apos;s only shared when a verified courier accepts.
       </p>
     </main>
   );

@@ -17,8 +17,8 @@ const LINKS_SENDERS = [
   ["/how-it-works","How it Works"],
 ];
 
-const LINKS_TRAVELERS = [
-  ["/auth/register", "Become a Traveler"],
+const LINKS_COURIERS = [
+  ["/auth/register", "Become a Courier"],
   ["/parcels",       "Browse Jobs"],
   ["/dashboard",     "My Dashboard"],
   ["/verify-identity","Verify Identity"],
@@ -43,7 +43,7 @@ const TRUST_BADGES = [
   },
   {
     label: "ID Verified",
-    desc: "Every traveler checked",
+    desc: "Every courier checked",
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
@@ -52,8 +52,8 @@ const TRUST_BADGES = [
     ),
   },
   {
-    label: "Instant Payout",
-    desc: "90% in seconds",
+    label: "Cash Payment",
+    desc: "No platform fee",
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
@@ -114,7 +114,7 @@ export default function Footer() {
             </div>
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-gray-600">
-            Sri Lanka&apos;s community-powered parcel delivery network. Travel. Deliver. Earn. Turn
+            Sri Lanka&apos;s community-powered parcel delivery network. Travel. Deliver. Earn cash. Turn
             every journey into income — safely.
           </p>
 
@@ -172,13 +172,13 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Travelers */}
+        {/* Couriers */}
         <div>
           <h4 className="mb-5 text-xs font-bold uppercase tracking-widest" style={{ color: ORANGE }}>
-            Travelers
+            Couriers
           </h4>
           <ul className="space-y-3">
-            {LINKS_TRAVELERS.map(([href, label]) => (
+            {LINKS_COURIERS.map(([href, label]) => (
               <li key={href}>
                 <Link href={href} className="text-sm text-gray-500 transition-all duration-200 hover:text-gray-900 inline-block font-medium">
                   {label}

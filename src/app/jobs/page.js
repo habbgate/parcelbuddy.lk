@@ -26,7 +26,7 @@ export default function JobsPage() {
     <>
       <Navbar />
       <main className="mx-auto max-w-4xl px-4 py-8">
-        <h1 className="text-3xl font-extrabold text-navy">My Jobs</h1>
+        <h1 className="text-3xl font-extrabold text-navy">My Deliveries</h1>
         {loading ? (
           <div className="py-16 text-center text-muted">Loading…</div>
         ) : jobs.length ? (
@@ -39,7 +39,7 @@ export default function JobsPage() {
                 </div>
                 <div className="text-right">
                   <StatusBadge status={j.status} />
-                  <div className="mono mt-1 text-sm font-bold text-success">{formatLKR(j.payoutLKR)}</div>
+                  <div className="mono mt-1 text-sm font-bold text-success">{formatLKR(j.rewardLKR)}</div>
                 </div>
               </Link>
             ))}

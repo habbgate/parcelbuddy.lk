@@ -1,7 +1,7 @@
 {
   "name": "ParcelBuddy — Travel. Deliver. Earn.",
   "short_name": "ParcelBuddy",
-  "description": "Community parcel delivery connecting senders with verified travelers across Sri Lanka.",
+  "description": "Community parcel delivery connecting senders with verified couriers across Sri Lanka.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

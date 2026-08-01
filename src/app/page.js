@@ -20,7 +20,7 @@ async function getData() {
     ]);
     return { recent, stats };
   } catch {
-    return { recent: [], stats: { deliveries: 0, travelers: 0, cities: 0 } };
+    return { recent: [], stats: { deliveries: 0, couriers: 0, cities: 0 } };
   }
 }
 
@@ -28,25 +28,25 @@ export default async function HomePage() {
   const { recent, stats } = await getData();
 
   const senderSteps = [
-    ["pencil",       "Post your parcel",   "Fill a quick form — no signup needed."],
-    ["bell",         "Get matched",        "A verified traveler on your route accepts."],
+    ["pencil",       "Post your parcel",   "Create an account and fill a quick form."],
+    ["bell",         "Get matched",        "A verified courier on your route accepts."],
     ["users",        "Hand it over",       "Their contact is shared so you can coordinate."],
-    ["check-circle", "Confirm delivery",   "Tap the SMS link once it arrives."],
+    ["check-circle", "Share your PIN",     "The recipient gives the courier your 4-digit PIN to confirm delivery."],
   ];
-  const travelerSteps = [
+  const courierSteps = [
     ["id-card",  "Verify your ID", "Upload your NIC or passport once."],
     ["search",   "Find jobs",      "Browse parcels going your way."],
     ["car",      "Deliver",        "Collect, travel, and drop it off."],
-    ["wallet",   "Earn",           "Get paid 90% of the reward, instantly."],
+    ["wallet",   "Get paid cash",  "Collect the full reward in cash — no platform fee."],
   ];
 
   const features = [
-    { icon: "lock",     title: "Phone stays private",        desc: "Your number is shared only with the one verified traveler who accepts.", bg: "rgba(26,43,95,0.08)", color: NAVY },
-    { icon: "shield",   title: "Verified travelers",          desc: "Every traveler passes NIC/Passport identity checks before they can carry.", bg: "rgba(249,115,22,0.08)", color: ORANGE },
+    { icon: "lock",     title: "Phone stays private",        desc: "Your number is shared only with the one verified courier who accepts.", bg: "rgba(26,43,95,0.08)", color: NAVY },
+    { icon: "shield",   title: "Verified couriers",          desc: "Every courier passes NIC/Passport identity checks before they can carry.", bg: "rgba(249,115,22,0.08)", color: ORANGE },
     { icon: "coins",    title: "Earn on trips you make",     desc: "Turn an empty seat or bag into income on your usual route.", bg: "rgba(26,43,95,0.08)", color: NAVY },
     { icon: "map-pin",  title: "Live tracking",              desc: "Follow every step — posted, matched, collected, in transit, delivered.", bg: "rgba(249,115,22,0.08)", color: ORANGE },
     { icon: "star",     title: "Ratings & reviews",          desc: "Build trust with a public profile and review history.", bg: "rgba(26,43,95,0.08)", color: NAVY },
-    { icon: "zap",      title: "Instant payouts",            desc: "90% of the reward lands in your wallet the moment delivery is confirmed.", bg: "rgba(249,115,22,0.08)", color: ORANGE },
+    { icon: "check-circle", title: "Secure PIN delivery",    desc: "A 4-digit PIN confirms every handoff — no fee, cash paid directly.", bg: "rgba(249,115,22,0.08)", color: ORANGE },
   ];
 
   return (
@@ -95,8 +95,8 @@ export default async function HomePage() {
             </h1>
 
             <p className="mt-6 max-w-lg text-lg leading-relaxed text-gray-600">
-              ParcelBuddy connects people sending parcels with <strong style={{ color: NAVY }}>verified travelers</strong> heading
-              the same way. Send affordably. Travel and earn.
+              ParcelBuddy connects people sending parcels with <strong style={{ color: NAVY }}>verified couriers</strong> heading
+              the same way. Send affordably. Travel and earn cash.
             </p>
 
             {/* CTAs */}
@@ -133,7 +133,7 @@ export default async function HomePage() {
               {[
                 { icon: "star", text: "4.9 avg rating", fill: "currentColor" },
                 { icon: "lock", text: "Phone-private" },
-                { icon: "zap",  text: "Instant payouts" },
+                { icon: "zap",  text: "Cash payments" },
               ].map(({ icon, text, fill }) => (
                 <span key={text} className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-gray-600 bg-gray-50 border border-gray-200">
                   <Icon name={icon} className="h-3.5 w-3.5" style={{ color: ORANGE }} fill={fill} />
@@ -155,7 +155,7 @@ export default async function HomePage() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/stock/istockphoto-1434715649-612x612.jpg"
-                  alt="Traveler delivering a parcel"
+                  alt="Courier delivering a parcel"
                   className="h-64 w-full object-cover"
                 />
                 <div className="p-5">
@@ -196,8 +196,8 @@ export default async function HomePage() {
                     <Icon name="zap" className="h-4 w-4" fill="currentColor" />
                   </span>
                   <div>
-                    <div className="text-xs text-gray-400">You earned</div>
-                    <div className="mono text-sm font-bold" style={{ color: ORANGE }}>+LKR 450</div>
+                    <div className="text-xs text-gray-400">You earned (cash)</div>
+                    <div className="mono text-sm font-bold" style={{ color: ORANGE }}>+LKR 500</div>
                   </div>
                 </div>
               </div>
@@ -222,7 +222,7 @@ export default async function HomePage() {
           <div className="mx-auto grid max-w-7xl grid-cols-3 divide-x px-4 py-6"
             style={{ divideColor: "#E2E8F0" }}>
             <StatItem value={<Counter to={Math.max(stats.deliveries, 2400)} suffix="+" />} label="Deliveries" iconName="package" />
-            <StatItem value={<Counter to={Math.max(stats.travelers,  850)} suffix="+" />} label="Travelers"  iconName="users" />
+            <StatItem value={<Counter to={Math.max(stats.couriers,  850)} suffix="+" />} label="Couriers"  iconName="users" />
             <StatItem value={<Counter to={Math.max(stats.cities,      40)} suffix="+" />} label="Cities"     iconName="map-pin" />
           </div>
         </div>
@@ -270,8 +270,8 @@ export default async function HomePage() {
             <h2 className="section-title mt-3">Two ways to win</h2>
           </div>
           <div className="mt-14 grid gap-6 lg:grid-cols-2">
-            <HowColumn title="For Senders" badge="No account needed" steps={senderSteps} accent="orange" />
-            <HowColumn title="For Travelers" badge="Earn on every trip" steps={travelerSteps} accent="navy" />
+            <HowColumn title="For Senders" badge="Cash payments" steps={senderSteps} accent="orange" />
+            <HowColumn title="For Couriers" badge="Earn on every trip" steps={courierSteps} accent="navy" />
           </div>
         </div>
       </section>
@@ -298,7 +298,7 @@ export default async function HomePage() {
             <h3 className="text-3xl font-extrabold md:text-4xl">Your phone stays private</h3>
             <p className="mt-4 text-lg text-white/70">
               Your number is never shown publicly and never sold. It&apos;s shared only with
-              your matched, verified traveler — and only after they accept.
+              your matched, verified courier — and only after they accept.
             </p>
             <Link href="/send"
               className="mt-8 inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5"
@@ -393,7 +393,7 @@ export default async function HomePage() {
                 className="inline-flex items-center gap-2 rounded-xl px-8 py-4 text-base font-bold text-white transition-all hover:-translate-y-1"
                 style={{ background: `linear-gradient(135deg, #243474, ${NAVY})`, boxShadow: "0 6px 24px rgba(26,43,95,0.3)" }}>
                 <Icon name="car" className="h-5 w-5" />
-                Become a Traveler
+                Become a Courier
               </Link>
             </div>
           </div>

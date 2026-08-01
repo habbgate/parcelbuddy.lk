@@ -7,36 +7,39 @@ import { ok, fail, handler, firstNameOnly } from "@/lib/api";
 export const dynamic = "force-dynamic";
 
 // GET /api/requests/[id] — detail view.
-// Sender phone is included ONLY if the requester is the assigned traveler.
+// Sender phone is included ONLY if the requester is the assigned courier.
+// The delivery PIN is included ONLY if the requester is the owning sender.
 export const GET = handler(async (req, { params }) => {
   await connectDB();
   const doc = await ParcelRequest.findById(params.id);
   if (!doc) return fail("Request not found", 404);
 
   const user = await getCurrentUser();
-  const isAssignedTraveler =
-    user && String(doc.matchedTraveler?.userId) === String(user._id);
+  const isAssignedCourier =
+    user && String(doc.matchedCourier?.userId) === String(user._id);
+  const isOwner = user && String(doc.senderUserId) === String(user._id);
 
   const pub = doc.toPublicJSON();
 
-  // Whether the sender posted while logged in (has an account). Chat is only
-  // available between the traveler and an account-holding sender.
-  pub.senderHasAccount = !!doc.senderUserId;
-
-  if (isAssignedTraveler) {
-    // Reveal full sender contact to the matched traveler.
+  if (isAssignedCourier) {
+    // Reveal full sender contact to the matched courier.
     pub.sender = { name: doc.sender.name, phone: doc.sender.phone };
     pub.isMine = true;
   } else {
     pub.senderName = firstNameOnly(pub.senderName);
   }
 
-  if (doc.matchedTraveler?.userId) {
-    const t = await User.findById(doc.matchedTraveler.userId).select(
+  if (isOwner) {
+    pub.deliveryPin = doc.deliveryPin;
+    pub.isOwner = true;
+  }
+
+  if (doc.matchedCourier?.userId) {
+    const t = await User.findById(doc.matchedCourier.userId).select(
       "name avatarUrl stats"
     );
     if (t) {
-      pub.traveler = {
+      pub.courier = {
         id: t._id.toString(),
         name: t.name,
         avatarUrl: t.avatarUrl,

@@ -5,8 +5,6 @@ import { DEFAULT_CONFIG } from "@/lib/constants";
 const configSchema = new mongoose.Schema(
   {
     key: { type: String, default: "platform", unique: true },
-    commissionPercent: { type: Number, default: DEFAULT_CONFIG.commissionPercent },
-    autoCompleteHours: { type: Number, default: DEFAULT_CONFIG.autoCompleteHours },
     requestExpiryDays: { type: Number, default: DEFAULT_CONFIG.requestExpiryDays },
     minRewardLKR: { type: Number, default: DEFAULT_CONFIG.minRewardLKR },
     maxWeightKg: { type: Number, default: DEFAULT_CONFIG.maxWeightKg },

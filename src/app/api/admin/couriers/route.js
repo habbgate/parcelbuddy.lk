@@ -6,7 +6,7 @@ import { ROLES } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
-// GET /api/admin/travelers — all traveler accounts.
+// GET /api/admin/couriers — all courier accounts.
 export const GET = handler(async (req) => {
   await requireAdmin();
   await connectDB();
@@ -14,8 +14,8 @@ export const GET = handler(async (req) => {
   const status = searchParams.get("status");
   const page = Number(searchParams.get("page") || 1);
   const limit = Number(searchParams.get("limit") || 10);
-  
-  const query = { role: ROLES.TRAVELER };
+
+  const query = { role: ROLES.COURIER };
   if (status) query.status = status;
 
   const skip = (page - 1) * limit;
@@ -25,12 +25,12 @@ export const GET = handler(async (req) => {
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
-      .select("name email phone status stats wallet idVerification createdAt"),
+      .select("name email phone status stats idVerification createdAt"),
     User.countDocuments(query),
   ]);
 
   return ok({
-    travelers: users.map((u) => ({
+    couriers: users.map((u) => ({
       id: u._id.toString(),
       name: u.name,
       email: u.email,
@@ -39,7 +39,7 @@ export const GET = handler(async (req) => {
       idStatus: u.idVerification?.status || "NONE",
       totalDeliveries: u.stats?.totalDeliveries || 0,
       averageRating: u.stats?.averageRating || 0,
-      walletBalance: u.wallet?.balance || 0,
+      totalEarningsLKR: u.stats?.totalEarningsLKR || 0,
       createdAt: u.createdAt,
     })),
     pagination: {

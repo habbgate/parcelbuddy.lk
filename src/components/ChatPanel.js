@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { api } from "@/lib/client";
 
-// Chat between the matched traveler and the sender.
+// Chat between the matched courier and the sender.
 // Uses Socket.io when NEXT_PUBLIC_SOCKET_URL is configured, otherwise
 // falls back to lightweight polling so the feature always works.
 export default function ChatPanel({ requestId, token }) {

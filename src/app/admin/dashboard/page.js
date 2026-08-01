@@ -25,15 +25,15 @@ export default function AdminDashboard() {
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <Kpi label="Pending ID Reviews" value={stats.kpis.pendingReviews} href="/admin/verifications" accent="text-amber" />
             <Kpi label="Open Requests" value={stats.kpis.openRequests} href="/admin/requests" accent="text-navy" />
-            <Kpi label="Active Travelers" value={stats.kpis.activeTravelers} href="/admin/travelers" accent="text-success" />
+            <Kpi label="Active Couriers" value={stats.kpis.activeCouriers} href="/admin/couriers" accent="text-success" />
             <Kpi label="Open Disputes" value={stats.kpis.openDisputes} href="/admin/disputes" accent="text-danger" />
           </div>
 
           <div className="mt-6 grid gap-6 lg:grid-cols-2">
             <div className="card bg-navy text-white">
-              <div className="text-sm uppercase text-white/70">Platform revenue this month</div>
-              <div className="mono mt-2 text-4xl font-bold text-orange">{formatLKR(stats.kpis.revenueThisMonth)}</div>
-              <p className="mt-1 text-sm text-white/60">From commission on completed deliveries.</p>
+              <div className="text-sm uppercase text-white/70">Deliveries this month</div>
+              <div className="mono mt-2 text-4xl font-bold text-orange">{stats.kpis.deliveriesThisMonth}</div>
+              <p className="mt-1 text-sm text-white/60">Cash payments — no platform fee.</p>
             </div>
 
             <div className="card">

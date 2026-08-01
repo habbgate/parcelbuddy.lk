@@ -16,8 +16,8 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold mb-3" style={{ color: NAVY }}>1. Information We Collect</h2>
             <p>
               When you use ParcelBuddy, we collect information you provide directly to us, such as your name, email address,
-              phone number, and identification documents (for travelers). We also collect data about your usage of the platform,
-              such as the parcels you send, routes you travel, and transaction history.
+              phone number, and identification documents (for couriers). We also collect data about your usage of the platform,
+              such as the parcels you send, routes you travel, and delivery history.
             </p>
           </section>
 
@@ -27,9 +27,9 @@ export default function PrivacyPage() {
               We use the information we collect to operate, maintain, and improve our services. Specifically, we use it to:
             </p>
             <ul className="list-disc pl-6 mt-2 space-y-2">
-              <li>Verify the identity of our travelers to ensure a safe community.</li>
-              <li>Facilitate the matching of senders and travelers.</li>
-              <li>Process transactions and send related information, including confirmations and receipts.</li>
+              <li>Verify the identity of our couriers to ensure a safe community.</li>
+              <li>Facilitate the matching of senders and couriers.</li>
+              <li>Generate and deliver your delivery PIN and send related notifications.</li>
               <li>Send you technical notices, updates, security alerts, and support messages.</li>
             </ul>
           </section>
@@ -42,7 +42,7 @@ export default function PrivacyPage() {
             <ul className="list-disc pl-6 mt-2 space-y-2">
               <li>
                 <strong>Phone Privacy:</strong> A sender&apos;s phone number is never shown publicly. It is only shared with the
-                single, verified traveler who has accepted the parcel delivery job.
+                single, verified courier who has accepted the parcel delivery job.
               </li>
               <li>
                 <strong>Legal Compliance:</strong> We may share information if required by law or to protect the rights and safety of our users.

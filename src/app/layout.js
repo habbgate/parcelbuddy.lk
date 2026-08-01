@@ -4,7 +4,7 @@ import Providers from "@/components/Providers";
 export const metadata = {
   title: "ParcelBuddy — Travel. Deliver. Earn.",
   description:
-    "Community parcel delivery platform connecting senders with verified travelers across Sri Lanka. Turn your journey into income.",
+    "Community parcel delivery platform connecting senders with verified couriers across Sri Lanka. Cash payments, no platform fee.",
   manifest: "/manifest.json",
   icons: {
     icon: [{ url: "/favicon.png", type: "image/png" }],

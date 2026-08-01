@@ -23,18 +23,10 @@ const idVerificationSchema = new mongoose.Schema(
 const statsSchema = new mongoose.Schema(
   {
     totalDeliveries: { type: Number, default: 0 },
+    // Cumulative cash earned (full reward, no commission) across deliveries.
     totalEarningsLKR: { type: Number, default: 0 },
     averageRating: { type: Number, default: 0 },
     reviewCount: { type: Number, default: 0 },
-  },
-  { _id: false }
-);
-
-const walletSchema = new mongoose.Schema(
-  {
-    balance: { type: Number, default: 0 },
-    totalEarned: { type: Number, default: 0 },
-    totalWithdrawn: { type: Number, default: 0 },
   },
   { _id: false }
 );
@@ -62,7 +54,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: Object.values(ROLES),
-      default: ROLES.TRAVELER,
+      default: ROLES.COURIER,
     },
     status: {
       type: String,
@@ -72,7 +64,6 @@ const userSchema = new mongoose.Schema(
 
     idVerification: idVerificationSchema,
     stats: { type: statsSchema, default: () => ({}) },
-    wallet: { type: walletSchema, default: () => ({}) },
     routeAlerts: [routeAlertSchema],
 
     isAvailable: { type: Boolean, default: true },

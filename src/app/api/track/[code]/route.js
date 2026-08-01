@@ -18,22 +18,25 @@ export const GET = handler(async (req, { params }) => {
   pub.senderName = firstNameOnly(pub.senderName);
 
   // Flag whether the current viewer is the account-holding sender, so the UI
-  // can enable in-app chat for them without exposing this to anyone else.
+  // can enable in-app chat and reveal the delivery PIN to them only.
   const viewer = await getCurrentUser();
   pub.isOwner =
     !!viewer && String(doc.senderUserId) === String(viewer._id);
-  pub.hasTraveler = !!doc.matchedTraveler?.userId;
+  pub.hasCourier = !!doc.matchedCourier?.userId;
+  if (pub.isOwner) {
+    pub.deliveryPin = doc.deliveryPin;
+  }
 
-  // Attach matched traveler's public name (no contact info).
-  if (doc.matchedTraveler?.userId) {
-    const traveler = await User.findById(doc.matchedTraveler.userId).select(
+  // Attach matched courier's public name (no contact info).
+  if (doc.matchedCourier?.userId) {
+    const courier = await User.findById(doc.matchedCourier.userId).select(
       "name avatarUrl stats"
     );
-    if (traveler) {
-      pub.traveler = {
-        name: traveler.name,
-        avatarUrl: traveler.avatarUrl,
-        rating: traveler.stats?.averageRating || 0,
+    if (courier) {
+      pub.courier = {
+        name: courier.name,
+        avatarUrl: courier.avatarUrl,
+        rating: courier.stats?.averageRating || 0,
       };
     }
   }

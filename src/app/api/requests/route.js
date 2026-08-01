@@ -4,22 +4,19 @@ import User from "@/models/User";
 import { getConfig } from "@/models/Config";
 import { ok, fail, handler } from "@/lib/api";
 import { createRequestSchema } from "@/lib/validation";
-import {
-  generateUniqueTrackingCode,
-  generateConfirmToken,
-} from "@/lib/tracking";
+import { generateUniqueTrackingCode, generateDeliveryPin } from "@/lib/tracking";
 import { sendSMS, smsTemplates } from "@/lib/sms";
 import { sendEmail, emailTemplates } from "@/lib/email";
 import { notify } from "@/lib/notifications";
 import { fetchOpenRequests } from "@/lib/queries";
-import { getCurrentUser } from "@/lib/guard";
+import { requireUser } from "@/lib/guard";
 import { NOTIFICATION_TYPES, REQUEST_STATUS } from "@/lib/constants";
 
-// POST /api/requests — create a parcel request (guest, no login).
+// POST /api/requests — create a parcel request. Requires a logged-in account.
 export const POST = handler(async (req) => {
-  // Resolve the logged-in user (if any) BEFORE consuming the request body,
-  // so the session context is intact. Guests resolve to null.
-  const currentUser = await getCurrentUser();
+  // Resolve the logged-in user BEFORE consuming the request body, so the
+  // session context is intact. Throws 401 if not authenticated.
+  const currentUser = await requireUser();
 
   const body = await req.json();
   const data = createRequestSchema.parse(body);
@@ -28,7 +25,7 @@ export const POST = handler(async (req) => {
   const config = await getConfig();
 
   const trackingCode = await generateUniqueTrackingCode(ParcelRequest);
-  const senderConfirmToken = generateConfirmToken();
+  const deliveryPin = generateDeliveryPin();
   const expiresAt = new Date(
     Date.now() + config.requestExpiryDays * 24 * 60 * 60 * 1000
   );
@@ -40,7 +37,7 @@ export const POST = handler(async (req) => {
       email: data.sender.email || undefined,
       phonePublic: false,
     },
-    senderUserId: currentUser?._id,
+    senderUserId: currentUser._id,
     route: {
       fromCity: data.route.fromCity,
       toCity: data.route.toCity,
@@ -59,25 +56,37 @@ export const POST = handler(async (req) => {
     rewardLKR: data.rewardLKR,
     status: REQUEST_STATUS.OPEN,
     trackingCode,
-    senderConfirmToken,
+    deliveryPin,
     expiresAt,
-    commissionPercent: config.commissionPercent,
   });
 
-  // Notify sender their request is live.
-  await sendSMS(data.sender.phone, smsTemplates.requestPosted(trackingCode));
+  // Notify sender their request is live, including their delivery PIN.
+  await sendSMS(data.sender.phone, smsTemplates.requestPosted(trackingCode, deliveryPin));
   if (data.sender.email) {
-    const e = emailTemplates.requestPosted(trackingCode);
+    const e = emailTemplates.requestPosted(trackingCode, deliveryPin);
     await sendEmail(data.sender.email, e.subject, e.html);
   }
+  await notify(currentUser._id, {
+    type: NOTIFICATION_TYPES.PARCEL_CREATED,
+    title: `Request posted: ${trackingCode}`,
+    body: `Your parcel request is live. Payment method: Cash.`,
+    link: `/track/${trackingCode}`,
+  });
+  await notify(currentUser._id, {
+    type: NOTIFICATION_TYPES.PIN_GENERATED,
+    title: `Your delivery PIN for ${trackingCode}`,
+    body: `PIN: ${deliveryPin}. Share this only with the person receiving the parcel.`,
+    link: `/track/${trackingCode}`,
+  });
 
-  // Fire route alerts to matching travelers (non-blocking best effort).
+  // Fire route alerts to matching couriers (non-blocking best effort).
   triggerRouteAlerts(doc).catch((e) => console.error("[ROUTE ALERTS]", e));
 
   return ok(
     {
       trackingCode,
       id: doc._id.toString(),
+      deliveryPin,
     },
     201
   );
@@ -113,7 +122,7 @@ export const GET = handler(async (req) => {
 });
 
 async function triggerRouteAlerts(doc) {
-  const travelers = await User.find({
+  const couriers = await User.find({
     status: "ACTIVE",
     routeAlerts: {
       $elemMatch: {
@@ -125,7 +134,7 @@ async function triggerRouteAlerts(doc) {
   });
 
   await Promise.all(
-    travelers.map(async (t) => {
+    couriers.map(async (t) => {
       await notify(t._id, {
         type: NOTIFICATION_TYPES.ROUTE_ALERT,
         title: `New job: ${doc.route.fromCity} → ${doc.route.toCity}`,

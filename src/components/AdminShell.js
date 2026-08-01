@@ -14,7 +14,7 @@ const LINKS = [
   ["/admin/dashboard", "Dashboard", <Icon key="icon" name="layout-dashboard" className="h-5 w-5" />],
   ["/admin/verifications", "ID Reviews", <Icon key="icon" name="users" className="h-5 w-5" />],
   ["/admin/requests", "Requests", <Icon key="icon" name="box" className="h-5 w-5" />],
-  ["/admin/travelers", "Travelers", <Icon key="icon" name="briefcase" className="h-5 w-5" />],
+  ["/admin/couriers", "Couriers", <Icon key="icon" name="briefcase" className="h-5 w-5" />],
   ["/admin/disputes", "Disputes", <Icon key="icon" name="alert" className="h-5 w-5" />],
   ["/admin/messages", "Messages", <Icon key="icon" name="mail" className="h-5 w-5" />],
   ["/admin/config", "Config", <Icon key="icon" name="gear" className="h-5 w-5" />],

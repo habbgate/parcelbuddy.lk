@@ -12,9 +12,9 @@ export const GET = handler(async (req, { params }) => {
   const u = await User.findById(params.id).select(
     "name email phone bio idVerification stats createdAt"
   );
-  if (!u) return fail("Traveler not found", 404);
+  if (!u) return fail("Courier not found", 404);
   return ok({
-    traveler: {
+    courier: {
       id: u._id.toString(),
       name: u.name,
       email: u.email,

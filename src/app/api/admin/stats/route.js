@@ -19,20 +19,20 @@ export const GET = handler(async () => {
   const [
     pendingReviews,
     openRequests,
-    activeTravelers,
+    activeCouriers,
     openDisputes,
-    completedThisMonth,
+    deliveriesThisMonth,
     statusBreakdown,
     perDay,
   ] = await Promise.all([
     User.countDocuments({ "idVerification.status": ID_STATUS.PENDING }),
     ParcelRequest.countDocuments({ status: REQUEST_STATUS.OPEN }),
-    User.countDocuments({ role: "TRAVELER", status: "ACTIVE" }),
+    User.countDocuments({ role: "COURIER", status: "ACTIVE" }),
     ParcelRequest.countDocuments({ "dispute.open": true }),
-    ParcelRequest.find({
-      status: REQUEST_STATUS.COMPLETED,
+    ParcelRequest.countDocuments({
+      status: REQUEST_STATUS.DELIVERED,
       updatedAt: { $gte: startOfMonth },
-    }).select("rewardLKR commissionPercent"),
+    }),
     ParcelRequest.aggregate([
       { $group: { _id: "$status", count: { $sum: 1 } } },
     ]),
@@ -54,18 +54,13 @@ export const GET = handler(async () => {
     ]),
   ]);
 
-  const revenueThisMonth = completedThisMonth.reduce(
-    (sum, r) => sum + Math.round((r.rewardLKR * (r.commissionPercent || 10)) / 100),
-    0
-  );
-
   return ok({
     kpis: {
       pendingReviews,
       openRequests,
-      activeTravelers,
+      activeCouriers,
       openDisputes,
-      revenueThisMonth,
+      deliveriesThisMonth,
     },
     statusBreakdown: statusBreakdown.reduce((acc, s) => {
       acc[s._id] = s.count;

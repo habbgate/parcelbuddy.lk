@@ -58,17 +58,6 @@ export default function DashboardPage() {
     }
   }
 
-  async function withdraw() {
-    const amount = Number(prompt(`Withdraw amount (max ${me.wallet.balance})`));
-    if (!amount) return;
-    try {
-      await api("/api/users/me/wallet/withdraw", { method: "POST", body: { amountLKR: amount } });
-      await loadAll();
-    } catch (e) {
-      alert(e.message);
-    }
-  }
-
   if (!me) return <><Navbar /><div className="py-20 text-center text-muted">Loading dashboard…</div></>;
 
   const pending = me.status === "PENDING_VERIFICATION";
@@ -132,7 +121,7 @@ export default function DashboardPage() {
                   </div>
                   <div className="my-4"><StatusTracker status={job.status} /></div>
                   <div className="text-sm text-muted">
-                    {job.parcel.description} · {formatLKR(job.rewardLKR)} · You earn {formatLKR(job.payoutLKR)}
+                    {job.parcel.description} · Reward {formatLKR(job.rewardLKR)} · Cash
                   </div>
                   {job.sender?.phone && (
                     <div className="mt-2 text-sm">Sender: <span className="font-semibold text-navy">{job.sender.name}</span> · <a href={`tel:${job.sender.phone}`} className="mono text-success">{job.sender.phone}</a></div>
@@ -145,16 +134,10 @@ export default function DashboardPage() {
                       </>
                     )}
                     {job.status === REQUEST_STATUS.COLLECTED && (
-                      <>
-                        <button onClick={() => updateStatus(job.id, "transit")} disabled={busy} className="btn-navy">Mark In Transit</button>
-                        <button onClick={() => updateStatus(job.id, "delivered")} disabled={busy} className="btn-success">Mark Delivered</button>
-                      </>
+                      <button onClick={() => updateStatus(job.id, "transit")} disabled={busy} className="btn-navy">Mark In Transit</button>
                     )}
-                    {job.status === REQUEST_STATUS.IN_TRANSIT && (
-                      <button onClick={() => updateStatus(job.id, "delivered")} disabled={busy} className="btn-success">Mark Delivered</button>
-                    )}
-                    {job.status === REQUEST_STATUS.DELIVERED && (
-                      <span className="text-sm text-muted">Awaiting sender confirmation…</span>
+                    {(job.status === REQUEST_STATUS.COLLECTED || job.status === REQUEST_STATUS.IN_TRANSIT) && (
+                      <span className="text-sm text-muted">Enter the delivery PIN in job details to complete →</span>
                     )}
                     <Link href={`/jobs/${job.id}`} className="btn-navy">Open chat & details →</Link>
                   </div>
@@ -168,15 +151,14 @@ export default function DashboardPage() {
           )}
         </div>
 
-        {/* Stats + wallet */}
-        <div className="mt-6 grid gap-4 md:grid-cols-4">
-          <StatCard label="Total Jobs" value={me.stats.totalDeliveries} />
+        {/* Stats + earnings */}
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
+          <StatCard label="Completed Deliveries" value={me.stats.totalDeliveries} />
           <StatCard label="Avg Rating" value={me.stats.averageRating ? `${me.stats.averageRating} / 5.0` : "—"} />
-          <StatCard label="Total Earned" value={formatLKR(me.stats.totalEarningsLKR)} />
           <div className="card bg-navy text-white">
-            <div className="text-xs uppercase text-white/70">Wallet balance</div>
-            <div className="mono mt-1 text-2xl font-bold text-orange">{formatLKR(me.wallet.balance)}</div>
-            <button onClick={withdraw} disabled={!me.wallet.balance} className="btn-primary mt-3 w-full !py-2 text-sm">Withdraw</button>
+            <div className="text-xs uppercase text-white/70">Earnings (Cash)</div>
+            <div className="mono mt-1 text-2xl font-bold text-orange">{formatLKR(me.stats.totalEarningsLKR)}</div>
+            <div className="mt-1 text-xs text-white/60">Paid directly by senders — no platform fee.</div>
           </div>
         </div>
 
@@ -195,6 +177,9 @@ export default function DashboardPage() {
                     <div className="text-sm text-muted">
                       <span className="mono">{p.trackingCode}</span> · {p.parcel.description} · {formatLKR(p.rewardLKR)}
                     </div>
+                    {p.status !== REQUEST_STATUS.DELIVERED && p.deliveryPin && (
+                      <div className="mt-1 text-xs font-semibold text-orange">PIN: <span className="mono">{p.deliveryPin}</span></div>
+                    )}
                   </div>
                   <StatusBadge status={p.status} />
                 </Link>

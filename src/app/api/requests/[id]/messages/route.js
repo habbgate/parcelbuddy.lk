@@ -7,14 +7,13 @@ import { messageSchema } from "@/lib/validation";
 import { notify } from "@/lib/notifications";
 import { NOTIFICATION_TYPES } from "@/lib/constants";
 
-// Resolve who is chatting. Chat is only available between the assigned
-// traveler and an account-holding sender — both must be authenticated.
-// Guest (external) senders cannot chat.
+// Resolve who is chatting. Chat is available between the assigned courier
+// and the sender — both are always authenticated account holders.
 async function resolveParticipant(req, doc) {
   const user = await getCurrentUser();
   if (user) {
-    if (String(doc.matchedTraveler?.userId) === String(user._id)) {
-      return { type: "TRAVELER", travelerId: user._id };
+    if (String(doc.matchedCourier?.userId) === String(user._id)) {
+      return { type: "COURIER", courierId: user._id };
     }
     if (doc.senderUserId && String(doc.senderUserId) === String(user._id)) {
       return { type: "SENDER" };
@@ -53,22 +52,22 @@ export const POST = handler(async (req, { params }) => {
   const msg = await Message.create({
     requestId: doc._id,
     senderType: who.type,
-    travelerId: who.travelerId,
+    courierId: who.courierId,
     content: data.content,
     imageUrl: data.imageUrl,
   });
 
-  // Notify the traveler when the sender writes.
-  if (who.type === "SENDER" && doc.matchedTraveler?.userId) {
-    await notify(doc.matchedTraveler.userId, {
+  // Notify the courier when the sender writes.
+  if (who.type === "SENDER" && doc.matchedCourier?.userId) {
+    await notify(doc.matchedCourier.userId, {
       type: NOTIFICATION_TYPES.MESSAGE,
       title: `New message on ${doc.trackingCode}`,
       body: data.content?.slice(0, 80),
       link: `/jobs/${doc._id.toString()}`,
     });
   }
-  // Notify the account-holding sender when the traveler writes.
-  if (who.type === "TRAVELER" && doc.senderUserId) {
+  // Notify the sender when the courier writes.
+  if (who.type === "COURIER" && doc.senderUserId) {
     await notify(doc.senderUserId, {
       type: NOTIFICATION_TYPES.MESSAGE,
       title: `New message on ${doc.trackingCode}`,

@@ -1,7 +1,7 @@
 // Shared enums and constants used across client and server.
 
 export const ROLES = {
-  TRAVELER: "TRAVELER",
+  COURIER: "COURIER",
   ADMIN: "ADMIN",
   SUPER_ADMIN: "SUPER_ADMIN",
 };
@@ -27,19 +27,18 @@ export const REQUEST_STATUS = {
   COLLECTED: "COLLECTED",
   IN_TRANSIT: "IN_TRANSIT",
   DELIVERED: "DELIVERED",
-  COMPLETED: "COMPLETED",
   CANCELLED: "CANCELLED",
   EXPIRED: "EXPIRED",
 };
 
-// Ordered pipeline used by the progress tracker UI.
+// Ordered pipeline used by the progress tracker UI. DELIVERED is terminal —
+// it's only reached once the courier verifies the delivery PIN.
 export const STATUS_FLOW = [
   REQUEST_STATUS.OPEN,
   REQUEST_STATUS.MATCHED,
   REQUEST_STATUS.COLLECTED,
   REQUEST_STATUS.IN_TRANSIT,
   REQUEST_STATUS.DELIVERED,
-  REQUEST_STATUS.COMPLETED,
 ];
 
 export const STATUS_LABELS = {
@@ -48,7 +47,6 @@ export const STATUS_LABELS = {
   COLLECTED: "Collected",
   IN_TRANSIT: "In Transit",
   DELIVERED: "Delivered",
-  COMPLETED: "Confirmed",
   CANCELLED: "Cancelled",
   EXPIRED: "Expired",
 };
@@ -59,8 +57,7 @@ export const STATUS_COLORS = {
   MATCHED: "amber",
   COLLECTED: "purple",
   IN_TRANSIT: "orange",
-  DELIVERED: "teal",
-  COMPLETED: "green",
+  DELIVERED: "green",
   CANCELLED: "red",
   EXPIRED: "gray",
 };
@@ -85,18 +82,16 @@ export const PACKAGE_TYPE_LABELS = {
   OTHER: "Other",
 };
 
-export const WALLET_TX_TYPES = {
-  CREDIT: "CREDIT",
-  DEBIT: "DEBIT",
-  WITHDRAWAL: "WITHDRAWAL",
-};
-
 export const NOTIFICATION_TYPES = {
+  PARCEL_CREATED: "PARCEL_CREATED",
+  PIN_GENERATED: "PIN_GENERATED",
   JOB_MATCH: "JOB_MATCH",
+  COURIER_ACCEPTED: "COURIER_ACCEPTED",
+  COURIER_STARTED: "COURIER_STARTED",
+  DELIVERY_COMPLETED: "DELIVERY_COMPLETED",
   ROUTE_ALERT: "ROUTE_ALERT",
   ID_APPROVED: "ID_APPROVED",
   ID_REJECTED: "ID_REJECTED",
-  PAYMENT: "PAYMENT",
   MESSAGE: "MESSAGE",
   SYSTEM: "SYSTEM",
 };
@@ -146,8 +141,6 @@ export const SRI_LANKAN_CITIES = [
 ];
 
 export const DEFAULT_CONFIG = {
-  commissionPercent: Number(process.env.PLATFORM_COMMISSION_PERCENT || 10),
-  autoCompleteHours: Number(process.env.AUTO_COMPLETE_HOURS || 48),
   requestExpiryDays: Number(process.env.REQUEST_EXPIRY_DAYS || 14),
   minRewardLKR: 100,
   maxWeightKg: 30,

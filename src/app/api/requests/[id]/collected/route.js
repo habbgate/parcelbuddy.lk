@@ -1,19 +1,19 @@
 import { connectDB } from "@/lib/db";
 import ParcelRequest from "@/models/ParcelRequest";
 import { ok, fail, handler } from "@/lib/api";
-import { requireActiveTraveler } from "@/lib/guard";
+import { requireActiveCourier } from "@/lib/guard";
 import { sendSMS, smsTemplates } from "@/lib/sms";
 import { sendEmail, emailTemplates } from "@/lib/email";
 import { REQUEST_STATUS } from "@/lib/constants";
 
-// PATCH /api/requests/[id]/collected — traveler marks parcel collected.
+// PATCH /api/requests/[id]/collected — courier marks parcel collected.
 export const PATCH = handler(async (req, { params }) => {
-  const traveler = await requireActiveTraveler();
+  const courier = await requireActiveCourier();
   await connectDB();
 
   const doc = await ParcelRequest.findById(params.id);
   if (!doc) return fail("Request not found", 404);
-  if (String(doc.matchedTraveler?.userId) !== String(traveler._id)) {
+  if (String(doc.matchedCourier?.userId) !== String(courier._id)) {
     return fail("You are not assigned to this job", 403);
   }
   if (doc.status !== REQUEST_STATUS.MATCHED) {
@@ -21,7 +21,7 @@ export const PATCH = handler(async (req, { params }) => {
   }
 
   doc.status = REQUEST_STATUS.COLLECTED;
-  doc.matchedTraveler.collectedAt = new Date();
+  doc.matchedCourier.collectedAt = new Date();
   await doc.save();
 
   await sendSMS(doc.sender.phone, smsTemplates.collected(doc.trackingCode));

@@ -1,7 +1,7 @@
 import { STATUS_FLOW, STATUS_LABELS, REQUEST_STATUS } from "@/lib/constants";
 import Icon from "@/components/Icon";
 
-// Visual progress bar: Posted -> Matched -> Collected -> In Transit -> Delivered -> Confirmed
+// Visual progress bar: Posted -> Matched -> Collected -> In Transit -> Delivered
 export default function StatusTracker({ status }) {
   const isCancelled =
     status === REQUEST_STATUS.CANCELLED || status === REQUEST_STATUS.EXPIRED;

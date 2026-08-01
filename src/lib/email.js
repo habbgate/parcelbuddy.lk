@@ -75,19 +75,23 @@ function layout(heading, bodyHtml, cta) {
 
 // Templates return { subject, html }. Mirrors smsTemplates in lib/sms.js.
 export const emailTemplates = {
-  requestPosted: (code) => ({
+  requestPosted: (code, pin) => ({
     subject: `Your request ${code} is live`,
     html: layout(
       "Your parcel request is live!",
-      `Your request <b>${code}</b> is now visible to verified travelers on your route. We'll let you know the moment someone accepts it.`,
+      `Your request <b>${code}</b> is now visible to verified couriers on your route. We'll let you know the moment someone accepts it.<br/><br/>
+      Your delivery PIN is:<div style="font-size:32px;font-weight:800;letter-spacing:6px;color:#F47C20;margin-top:10px">${pin}</div>
+      <p style="margin-top:12px;font-size:13px;color:#B45309;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:10px 12px">
+        <b>Share this PIN only with the person receiving the parcel.</b> Do not share it with anyone else. The courier will ask for it to confirm the handoff.
+      </p>`,
       { label: "Track your parcel", href: `${base()}/track/${code}` }
     ),
   }),
   accepted: (code) => ({
-    subject: `A traveler accepted ${code}`,
+    subject: `A courier accepted ${code}`,
     html: layout(
-      "A verified traveler accepted your request",
-      `Good news! A verified traveler has accepted <b>${code}</b> and will contact you shortly to arrange pickup.`,
+      "A verified courier accepted your request",
+      `Good news! A verified courier has accepted <b>${code}</b> and will contact you shortly to arrange pickup. Payment method: <b>Cash</b>, arranged directly with the courier.`,
       { label: "Track your parcel", href: `${base()}/track/${code}` }
     ),
   }),
@@ -107,12 +111,12 @@ export const emailTemplates = {
       { label: "Track your parcel", href: `${base()}/track/${code}` }
     ),
   }),
-  delivered: (code, token) => ({
-    subject: `${code} delivered — please confirm`,
+  delivered: (code) => ({
+    subject: `${code} delivered`,
     html: layout(
       "Your parcel was delivered",
-      `Your traveler has marked <b>${code}</b> as delivered. Please confirm you received it so we can release their payment.`,
-      { label: "Confirm delivery", href: `${base()}/track/${code}?confirm=${token}` }
+      `<b>${code}</b> has been delivered and confirmed with your delivery PIN. Thanks for using ParcelBuddy!`,
+      { label: "View delivery", href: `${base()}/track/${code}` }
     ),
   }),
   idApproved: () => ({
@@ -131,11 +135,11 @@ export const emailTemplates = {
       { label: "Resubmit documents", href: `${base()}/verify-identity` }
     ),
   }),
-  jobAcceptedTraveler: (code, name, phone) => ({
+  jobAcceptedCourier: (code, name, phone) => ({
     subject: `Job confirmed: ${code}`,
     html: layout(
       "Job confirmed",
-      `You accepted <b>${code}</b>.<br/>Sender: <b>${name}</b><br/>Phone: <b>${phone}</b><br/>Head to your dashboard for full details and chat.`,
+      `You accepted <b>${code}</b>.<br/>Sender: <b>${name}</b><br/>Phone: <b>${phone}</b><br/>Payment: <b>Cash</b>, arranged directly with the sender.<br/>Head to your dashboard for full details and chat.`,
       { label: "Open dashboard", href: `${base()}/dashboard` }
     ),
   }),

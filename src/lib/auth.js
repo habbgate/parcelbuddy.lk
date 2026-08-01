@@ -65,7 +65,7 @@ export const authOptions = {
             email: profile.email,
             googleId: profile.sub,
             avatarUrl: profile.picture,
-            role: ROLES.TRAVELER,
+            role: ROLES.COURIER,
             status: USER_STATUS.PENDING_VERIFICATION,
           });
         }

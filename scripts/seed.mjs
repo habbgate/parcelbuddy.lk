@@ -1,4 +1,4 @@
-// Seed an admin account, a verified traveler, and sample open requests.
+// Seed an admin account, a verified courier, and sample open requests.
 // Run: node --env-file=.env scripts/seed.mjs
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
@@ -17,6 +17,10 @@ function code() {
   return "PB-" + Array.from({ length: 4 }, () => a[Math.floor(Math.random() * a.length)]).join("");
 }
 
+function pin() {
+  return String(Math.floor(1000 + Math.random() * 9000));
+}
+
 // --- Admin ---
 const adminHash = await bcrypt.hash("admin1234", 10);
 await db.collection("users").updateOne(
@@ -31,7 +35,6 @@ await db.collection("users").updateOne(
       role: "SUPER_ADMIN",
       status: "ACTIVE",
       stats: { totalDeliveries: 0, totalEarningsLKR: 0, averageRating: 0, reviewCount: 0 },
-      wallet: { balance: 0, totalEarned: 0, totalWithdrawn: 0 },
       isAvailable: false,
       updatedAt: new Date(),
     },
@@ -40,29 +43,29 @@ await db.collection("users").updateOne(
   { upsert: true }
 );
 
-// --- Verified traveler ---
-const travHash = await bcrypt.hash("traveler1234", 10);
-await db.collection("users").updateOne(
-  { email: "traveler@parcelbuddy.lk" },
+// --- Verified courier (also used as the sample sender below) ---
+const courierHash = await bcrypt.hash("courier1234", 10);
+const courierResult = await db.collection("users").findOneAndUpdate(
+  { email: "courier@parcelbuddy.lk" },
   {
     $set: {
       name: "Nimal Perera",
-      email: "traveler@parcelbuddy.lk",
+      email: "courier@parcelbuddy.lk",
       phone: "0771112222",
       phoneVerified: true,
-      passwordHash: travHash,
-      role: "TRAVELER",
+      passwordHash: courierHash,
+      role: "COURIER",
       status: "ACTIVE",
       idVerification: { docType: "NIC", status: "APPROVED", reviewedAt: new Date() },
       stats: { totalDeliveries: 12, totalEarningsLKR: 14500, averageRating: 4.8, reviewCount: 9 },
-      wallet: { balance: 3200, totalEarned: 14500, totalWithdrawn: 11300 },
       isAvailable: true,
       updatedAt: new Date(),
     },
     $setOnInsert: { createdAt: new Date() },
   },
-  { upsert: true }
+  { upsert: true, returnDocument: "after" }
 );
+const courierId = courierResult.value?._id ?? (await db.collection("users").findOne({ email: "courier@parcelbuddy.lk" }))._id;
 
 // --- Sample open requests ---
 const samples = [
@@ -77,13 +80,13 @@ if (existing === 0) {
   await db.collection("parcelrequests").insertMany(
     samples.map((s) => ({
       sender: { name: "Sample Sender", phone: "0759998877", phonePublic: false },
+      senderUserId: courierId,
       route: { fromCity: s.from, toCity: s.to },
       parcel: { description: s.desc, weightKg: s.w, packageType: s.type, photos: [], isFragile: s.type === "FRAGILE" },
       rewardLKR: s.reward,
       status: "OPEN",
       trackingCode: code(),
-      senderConfirmToken: Math.random().toString(36).slice(2),
-      commissionPercent: 10,
+      deliveryPin: pin(),
       expiresAt: new Date(Date.now() + 14 * 86400000),
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -93,8 +96,8 @@ if (existing === 0) {
 }
 
 console.log("\n✅ Seed complete.");
-console.log("Admin:    admin@parcelbuddy.lk / admin1234");
-console.log("Traveler: traveler@parcelbuddy.lk / traveler1234");
+console.log("Admin:   admin@parcelbuddy.lk / admin1234");
+console.log("Courier: courier@parcelbuddy.lk / courier1234");
 
 await mongoose.disconnect();
 process.exit(0);

@@ -15,7 +15,7 @@ export default function AdminVerificationDetail() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    api(`/api/admin/verifications/${id}`).then((d) => setT(d.traveler)).catch((e) => setError(e.message));
+    api(`/api/admin/verifications/${id}`).then((d) => setT(d.courier)).catch((e) => setError(e.message));
   }, [id]);
 
   async function approve() {

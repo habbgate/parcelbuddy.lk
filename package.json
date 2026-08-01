@@ -2,7 +2,7 @@
   "name": "parcelbuddy",
   "version": "1.0.0",
   "private": true,
-  "description": "Community parcel delivery platform connecting senders with verified travelers.",
+  "description": "Community parcel delivery platform connecting senders with verified couriers.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,6 +10,7 @@
     "lint": "next lint",
     "cron": "node --env-file=.env scripts/cron.mjs",
     "seed": "node --env-file=.env scripts/seed.mjs",
+    "migrate:courier-pin": "node --env-file=.env scripts/migrate-courier-pin.mjs",
     "socket": "node --env-file=.env socket-server.mjs"
   },
   "dependencies": {

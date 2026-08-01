@@ -34,13 +34,13 @@ const parcelSchema = new mongoose.Schema(
   { _id: false }
 );
 
-const matchedTravelerSchema = new mongoose.Schema(
+const matchedCourierSchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     acceptedAt: Date,
     collectedAt: Date,
     deliveredAt: Date,
-    confirmedAt: Date,
+    deliveryVerifiedAt: Date,
   },
   { _id: false }
 );
@@ -59,7 +59,7 @@ const disputeSchema = new mongoose.Schema(
     open: { type: Boolean, default: false },
     reason: String,
     description: String,
-    reportedBy: String, // "SENDER" | "TRAVELER"
+    reportedBy: String, // "SENDER" | "COURIER"
     status: { type: String, enum: ["OPEN", "RESOLVED", "DISMISSED"], default: "OPEN" },
     resolution: String,
     createdAt: Date,
@@ -71,11 +71,11 @@ const disputeSchema = new mongoose.Schema(
 const parcelRequestSchema = new mongoose.Schema(
   {
     sender: { type: senderSchema, required: true },
-    // Set when the parcel is posted by a logged-in user (so they can manage
-    // and chat from their account). Guests leave this empty.
+    // Every parcel is posted by a logged-in user (registration is required).
     senderUserId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      required: true,
       index: true,
     },
     route: { type: routeSchema, required: true },
@@ -89,16 +89,14 @@ const parcelRequestSchema = new mongoose.Schema(
       index: true,
     },
 
-    matchedTraveler: matchedTravelerSchema,
+    matchedCourier: matchedCourierSchema,
 
     trackingCode: { type: String, required: true, unique: true, index: true },
     expiresAt: { type: Date, index: true },
 
-    senderConfirmToken: String,
-
-    // Commission/payout snapshot captured when the job is created.
-    commissionPercent: { type: Number, default: 10 },
-    travelerPayoutLKR: { type: Number, default: 0 },
+    // Uber-style delivery confirmation: shown only to the sender until the
+    // courier enters it to mark the parcel DELIVERED.
+    deliveryPin: { type: String, required: true },
 
     review: reviewSchema,
     dispute: disputeSchema,
@@ -108,14 +106,16 @@ const parcelRequestSchema = new mongoose.Schema(
 
 parcelRequestSchema.index({ "route.fromCity": 1, "route.toCity": 1, status: 1 });
 
-// Build a public-safe view of the request. Sender phone is NEVER included
-// unless explicitly revealed to the matched traveler in a dedicated endpoint.
+// Build a public-safe view of the request. Sender phone and the delivery PIN
+// are NEVER included here — they're revealed explicitly at the API layer only
+// to the matched courier (phone) or the owning sender (PIN).
 parcelRequestSchema.methods.toPublicJSON = function () {
   const obj = this.toObject();
   return {
     id: obj._id.toString(),
     trackingCode: obj.trackingCode,
     status: obj.status,
+    paymentMethod: "CASH",
     route: {
       fromCity: obj.route.fromCity,
       toCity: obj.route.toCity,
@@ -133,12 +133,12 @@ parcelRequestSchema.methods.toPublicJSON = function () {
     senderName: obj.sender.name, // first name only handled at API layer
     createdAt: obj.createdAt,
     expiresAt: obj.expiresAt,
-    matchedTraveler: obj.matchedTraveler
+    matchedCourier: obj.matchedCourier
       ? {
-          acceptedAt: obj.matchedTraveler.acceptedAt,
-          collectedAt: obj.matchedTraveler.collectedAt,
-          deliveredAt: obj.matchedTraveler.deliveredAt,
-          confirmedAt: obj.matchedTraveler.confirmedAt,
+          acceptedAt: obj.matchedCourier.acceptedAt,
+          collectedAt: obj.matchedCourier.collectedAt,
+          deliveredAt: obj.matchedCourier.deliveredAt,
+          deliveryVerifiedAt: obj.matchedCourier.deliveryVerifiedAt,
         }
       : null,
     review: obj.review || null,

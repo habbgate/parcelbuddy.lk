@@ -13,41 +13,42 @@ export default function HowItWorksPage() {
       <main className="mx-auto max-w-3xl px-4 py-12">
         <h1 className="text-4xl font-extrabold" style={{ color: NAVY }}>How ParcelBuddy works</h1>
         <p className="mt-3 text-lg text-muted">
-          We connect people who need to send a parcel with verified travelers
-          already heading that way. Affordable for senders, income for travelers.
+          We connect people who need to send a parcel with verified couriers
+          already heading that way. Affordable for senders, income for couriers —
+          paid in cash, no platform fee.
         </p>
 
         <Section
           title="For Senders"
           color={ORANGE}
           steps={[
-            ["Post your parcel", "Fill a quick 3-step form. No account needed. Set a reward you're happy to pay."],
-            ["Get a tracking code", "You instantly get a code like PB-8X4K to follow your parcel."],
-            ["A traveler accepts", "Only then is your phone number shared — with that one verified traveler."],
-            ["Confirm delivery", "Tap the link we SMS you once it arrives. The traveler gets paid."],
+            ["Post your parcel", "Register or log in, then fill a quick 3-step form. Set a reward you're happy to pay in cash."],
+            ["Get a tracking code and PIN", "You instantly get a tracking code like PB-8X4K and a 4-digit delivery PIN."],
+            ["A courier accepts", "Only then is your phone number shared — with that one verified courier."],
+            ["Share your PIN", "When the parcel arrives, give the recipient's PIN to the courier to confirm delivery."],
           ]}
         />
 
         <Section
-          title="For Travelers"
+          title="For Couriers"
           color={NAVY}
           steps={[
             ["Register & verify", "Sign up and upload your NIC or passport once. Approved usually within 2 hours."],
             ["Find jobs on your route", "Browse open parcels or set a route alert to get notified."],
             ["Accept & coordinate", "Accept a job to reveal the sender's contact and arrange pickup."],
-            ["Deliver & earn", "Mark each step. Once confirmed, you earn 90% of the reward in your wallet."],
+            ["Deliver & get paid cash", "Enter the delivery PIN from the recipient to confirm. Keep the full reward — no fee."],
           ]}
         />
 
         <div className="card mt-10 text-center" style={{ borderColor: "#E2E8F0" }}>
           <h3 className="text-xl font-extrabold" style={{ color: NAVY }}>Your privacy is the priority</h3>
-          <p className="mt-2 text-muted">Sender phone numbers are never shown publicly. They are revealed only to the single verified traveler who accepts the job.</p>
+          <p className="mt-2 text-muted">Sender phone numbers are never shown publicly. They are revealed only to the single verified courier who accepts the job.</p>
           <div className="mt-5 flex flex-col justify-center gap-3 sm:flex-row">
             <Link href="/send" className="btn-primary">
               <Icon name="box" className="h-4 w-4" /> Send a Parcel
             </Link>
             <Link href="/auth/register" className="btn-outline">
-              <Icon name="car" className="h-4 w-4" /> Become a Traveler
+              <Icon name="car" className="h-4 w-4" /> Become a Courier
             </Link>
           </div>
         </div>

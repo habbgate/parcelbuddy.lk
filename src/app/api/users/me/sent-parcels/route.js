@@ -16,8 +16,9 @@ export const GET = handler(async () => {
 
   const parcels = docs.map((d) => {
     const j = d.toPublicJSON();
-    // It's their own parcel, so their own phone is fine to return.
+    // It's their own parcel, so their own phone and delivery PIN are fine to return.
     j.sender = { name: d.sender.name, phone: d.sender.phone };
+    j.deliveryPin = d.deliveryPin;
     return j;
   });
 

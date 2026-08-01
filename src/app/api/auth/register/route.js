@@ -7,7 +7,7 @@ import { sendSMS, smsTemplates } from "@/lib/sms";
 import { sendEmail, emailTemplates } from "@/lib/email";
 import { ROLES, USER_STATUS } from "@/lib/constants";
 
-// POST /api/auth/register — create a traveler account, send phone OTP.
+// POST /api/auth/register — create an account, send phone OTP.
 export const POST = handler(async (req) => {
   const body = await req.json();
   const data = registerSchema.parse(body);
@@ -25,7 +25,7 @@ export const POST = handler(async (req) => {
     email: data.email.toLowerCase(),
     phone: data.phone,
     passwordHash,
-    role: ROLES.TRAVELER,
+    role: ROLES.COURIER,
     status: USER_STATUS.PENDING_VERIFICATION,
     otpCode,
     otpExpires,

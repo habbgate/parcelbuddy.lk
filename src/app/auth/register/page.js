@@ -65,10 +65,10 @@ export default function RegisterPage() {
 
           <div className="mb-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
             style={{ background: "rgba(26,43,95,0.08)", color: NAVY }}>
-            <Icon name="briefcase" className="h-3.5 w-3.5" /> Traveler Registration
+            <Icon name="briefcase" className="h-3.5 w-3.5" /> Create Your Account
           </div>
-          <h1 className="text-3xl font-extrabold" style={{ color: NAVY }}>Become a Traveler</h1>
-          <p className="mt-2 text-muted">Earn money delivering parcels on trips you already make.</p>
+          <h1 className="text-3xl font-extrabold" style={{ color: NAVY }}>Join ParcelBuddy</h1>
+          <p className="mt-2 text-muted">One account to send parcels and deliver as a courier — earn cash on trips you already make.</p>
         </div>
 
         <div className="rounded-3xl border bg-white p-8" style={{ borderColor: "#E2E8F0", boxShadow: "0 20px 60px rgba(26,43,95,0.06)" }}>

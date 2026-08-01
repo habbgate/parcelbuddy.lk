@@ -55,22 +55,22 @@ const base = () => process.env.NEXT_PUBLIC_BASE_URL || "https://parcelbuddy.lk";
 
 // Pre-built message templates matching the spec.
 export const smsTemplates = {
-  requestPosted: (code) =>
-    `ParcelBuddy: Your request ${code} is live! Track: ${base()}/track/${code}`,
+  requestPosted: (code, pin) =>
+    `ParcelBuddy: Your request ${code} is live! Track: ${base()}/track/${code}\nYour delivery PIN: ${pin}. Share this ONLY with the person receiving the parcel.`,
   accepted: (code) =>
-    `A verified traveler accepted ${code}. They will contact you shortly.`,
+    `A verified courier accepted ${code}. They will contact you shortly. Payment: Cash, arranged directly.`,
   collected: (code) =>
     `Your parcel ${code} has been collected and is on the way!`,
   inTransit: (code) =>
     `Update: ${code} is now in transit and heading to the destination.`,
-  delivered: (code, token) =>
-    `${code} delivered! Confirm here: ${base()}/track/${code}?confirm=${token}`,
+  delivered: (code) =>
+    `${code} delivered and confirmed with your PIN. Thanks for using ParcelBuddy!`,
   idApproved: () =>
     `Your identity is verified! You can now accept delivery jobs. ${base()}/parcels`,
   idRejected: () =>
     `ID verification failed. Please resubmit: ${base()}/verify-identity`,
-  jobAcceptedTraveler: (name, phone) =>
-    `Job confirmed! Sender: ${name} | ${phone}. Check dashboard for details.`,
+  jobAcceptedCourier: (name, phone) =>
+    `Job confirmed! Sender: ${name} | ${phone}. Payment: Cash. Check dashboard for details.`,
   otp: (code) => `Your ParcelBuddy verification code is ${code}. Valid for 10 minutes.`,
   routeAlert: (from, to, reward, code) =>
     `New job on your route ${from} → ${to}! Reward LKR ${reward}. ${base()}/parcels`,

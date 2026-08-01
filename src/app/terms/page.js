@@ -17,14 +17,14 @@ export default function TermsPage() {
             <p>
               Welcome to ParcelBuddy. By accessing our website and using our services, you agree to be bound by these Terms of Service.
               Please read them carefully. ParcelBuddy provides a platform that connects people who want to send parcels with verified
-              travelers heading in the same direction.
+              couriers heading in the same direction. All users must register for an account to send or deliver a parcel.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-bold mb-3" style={{ color: NAVY }}>2. User Responsibilities</h2>
             <p>
-              As a user of our platform, whether a sender or a traveler, you agree to:
+              As a user of our platform, whether a sender or a courier, you agree to:
             </p>
             <ul className="list-disc pl-6 mt-2 space-y-2">
               <li>Provide accurate, current, and complete information during registration.</li>
@@ -43,11 +43,11 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold mb-3" style={{ color: NAVY }}>4. Payments & Fees</h2>
+            <h2 className="text-2xl font-bold mb-3" style={{ color: NAVY }}>4. Payments</h2>
             <p>
-              ParcelBuddy facilitates payments between senders and travelers. The sender agrees to pay the agreed-upon reward for the delivery.
-              ParcelBuddy deducts a standard platform fee (e.g., 10%) from the total reward, and the remaining amount (e.g., 90%) is transferred
-              to the traveler&apos;s wallet upon confirmed delivery.
+              Payment Method: Cash. ParcelBuddy does not process or hold any funds — the sender pays the agreed-upon reward directly
+              to the courier in cash when the parcel is handed over. ParcelBuddy charges no platform fee, service fee, or commission
+              on any delivery.
             </p>
           </section>
 
@@ -56,7 +56,7 @@ export default function TermsPage() {
             <p>
               ParcelBuddy acts merely as a connection platform. We do not take possession of any parcels and are not liable for lost, damaged,
               or stolen items. Users assume all risks associated with sending and carrying parcels. However, we do enforce identity verification
-              for all travelers to maintain a trusted community.
+              for all couriers to maintain a trusted community.
             </p>
           </section>
 

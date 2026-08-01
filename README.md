@@ -1,13 +1,15 @@
 # ParcelBuddy 📦
 
-**Travel. Deliver. Earn.** A community parcel delivery platform connecting people who need to send parcels with verified travelers heading the same way across Sri Lanka.
+**Travel. Deliver. Earn.** A community parcel delivery platform connecting people who need to send parcels with verified couriers heading the same way across Sri Lanka.
 
 ## Concept
 
-- **Senders** — no registration. Post a parcel request (route + item + reward in LKR) publicly.
-- **Travelers** — register and verify identity (NIC/Passport) before accepting jobs and earning.
+- Every user registers a single account that can both **send** parcels and **deliver as a courier** — no separate account types.
+- **Couriers** verify identity (NIC/Passport) before accepting jobs and earning.
+- Delivery is confirmed Uber-style: the sender gets a 4-digit delivery PIN, the recipient shares it with the courier, and the courier enters it to mark the parcel delivered.
+- Payment Method: Cash, arranged directly between sender and courier. No platform fee, commission, or online payment processing.
 
-**Phone privacy is core:** a sender's phone is *never* returned in any public API response. It is revealed only to the single verified traveler who accepts that request.
+**Phone privacy is core:** a sender's phone is *never* returned in any public API response. It is revealed only to the single verified courier who accepts that request.
 
 ## Tech Stack
 
@@ -30,33 +32,33 @@ npm run dev       # http://localhost:3000
 | Role     | Email                       | Password        |
 |----------|-----------------------------|-----------------|
 | Admin    | `admin@parcelbuddy.lk`      | `admin1234`     |
-| Traveler | `traveler@parcelbuddy.lk`   | `traveler1234`  |
+| Courier  | `courier@parcelbuddy.lk`    | `courier1234`   |
 
 > SMS, Google OAuth and S3 are optional in dev. Without API keys, SMS messages
-> (OTPs, confirm links, etc.) are **printed to the server console** so the full
+> (OTPs, delivery PINs, etc.) are **printed to the server console** so the full
 > flow works end-to-end.
 
 ## Key flows
 
-1. **Send** `/send` → 3-step wizard → `/send/success` (tracking code `PB-XXXX`).
-2. **Track** `/track/[code]` → public status, no phone shown, confirm via SMS token.
-3. **Browse** `/parcels` → filters → `/parcels/[id]` → accept (reveals phone to that traveler only).
-4. **Deliver** `/dashboard` & `/jobs/[id]` → mark collected/delivered, chat, get paid 90%.
+1. **Send** `/send` (requires login) → 3-step wizard → `/send/success` (tracking code `PB-XXXX` + 4-digit delivery PIN).
+2. **Track** `/track/[code]` → public status, no phone shown; the sender sees their PIN until it's delivered.
+3. **Browse** `/parcels` → filters → `/parcels/[id]` → accept (reveals phone to that courier only).
+4. **Deliver** `/dashboard` & `/jobs/[id]` → mark collected/in transit, chat, enter the delivery PIN to complete and get paid in cash.
 5. **Verify** `/verify-identity` → admin reviews at `/admin/verifications`.
 
 ## Business rules implemented
 
 - Tracking codes `PB-XXXX` (ambiguous chars 0/O/I/1/L excluded).
-- Status flow `OPEN → MATCHED → COLLECTED → (IN_TRANSIT) → DELIVERED → COMPLETED`.
-- Verification gate — `PENDING_VERIFICATION` travelers can browse but not accept.
-- Auto-expire OPEN requests after 14 days; auto-complete DELIVERED after 48h.
-- 10% configurable platform commission; traveler earns 90%.
-- Route alerts, suggested reward (median of last 20 completed on the route), WhatsApp share.
+- Status flow `OPEN → MATCHED → COLLECTED → (IN_TRANSIT) → DELIVERED` (terminal — reached only via correct PIN entry).
+- Verification gate — `PENDING_VERIFICATION` couriers can browse but not accept.
+- Auto-expire OPEN requests after 14 days.
+- Payment Method: Cash. No platform fee, commission, or online payment processing.
+- Route alerts, suggested reward (median of last 20 delivered on the route), WhatsApp share.
 
 ## Background jobs
 
 ```bash
-npm run cron      # runs auto-expire + auto-complete (schedule hourly)
+npm run cron      # runs auto-expire (schedule hourly)
 npm run socket    # optional Socket.io server for realtime chat (set NEXT_PUBLIC_SOCKET_URL)
 ```
 
@@ -69,7 +71,7 @@ with header `Authorization: Bearer $CRON_SECRET`.
 src/
   app/            App Router pages + /api route handlers
   components/     Reusable UI (Navbar, ParcelCard, StatusTracker, ChatPanel, ...)
-  lib/            db, auth, guards, sms, wallet, tracking, validation, queries
+  lib/            db, auth, guards, sms, delivery, tracking, validation, queries
   models/         Mongoose models (User, ParcelRequest, Message, Notification, ...)
 scripts/          seed + cron runners
 socket-server.mjs Standalone realtime server

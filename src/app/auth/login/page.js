@@ -59,7 +59,7 @@ function LoginInner() {
             </span>
           </Link>
           <h1 className="text-3xl font-extrabold" style={{ color: NAVY }}>Welcome back</h1>
-          <p className="mt-2 text-muted">Log in to your traveler account.</p>
+          <p className="mt-2 text-muted">Log in to your ParcelBuddy account.</p>
         </div>
 
         <div className="rounded-3xl border bg-white p-8" style={{ borderColor: "#E2E8F0", boxShadow: "0 20px 60px rgba(26,43,95,0.06)" }}>
