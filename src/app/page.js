@@ -14,11 +14,11 @@ const ORANGE = "#F97316";
 
 async function getData() {
   try {
-    const [recent, stats] = await Promise.all([
+    const [{ requests }, stats] = await Promise.all([
       fetchOpenRequests({ limit: 4 }),
       fetchPlatformStats(),
     ]);
-    return { recent, stats };
+    return { recent: requests, stats };
   } catch {
     return { recent: [], stats: { deliveries: 0, couriers: 0, cities: 0 } };
   }
